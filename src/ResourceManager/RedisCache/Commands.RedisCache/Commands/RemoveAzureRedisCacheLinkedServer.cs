@@ -14,16 +14,13 @@
 
 namespace Microsoft.Azure.Commands.RedisCache
 {
-    using Microsoft.Azure.Commands.RedisCache.Models;
-    using Microsoft.Azure.Commands.RedisCache.Properties;
     using ResourceManager.Common.ArgumentCompleters;
-    using System;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Set, "AzureRmRedisCacheDiagnostics"), OutputType(typeof(void))]
-    public class SetAzureRedisCacheDiagnostics : RedisCacheCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheLinkedServer", SupportsShouldProcess = true), OutputType(typeof(void))]
+    public class RemoveAzureRedisCacheLinkedServer : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group under which cache exists.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
@@ -32,15 +29,15 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "ARM Resource Id for storage account.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Id of linked redis cache.")]
         [ValidateNotNullOrEmpty]
-        public string StorageAccountId { get; set; }
+        public string LinkedRedisCacheId { get; set; }
 
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            RedisCacheAttributes cache = new RedisCacheAttributes(CacheClient.GetCache(ResourceGroupName, Name), ResourceGroupName);
-            CacheClient.SetDiagnostics(cache.Id, StorageAccountId);
+            string linkedCacheName = Utility.GetCacheNameFromLinkedRedisCacheId(LinkedRedisCacheId);
+            CacheClient.RemoveLinkedServer(ResourceGroupName, Name, linkedCacheName);
         }
     }
 }

@@ -81,6 +81,13 @@ namespace Microsoft.Azure.Commands.RedisCache
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Required when deploying a redis cache inside an existing Azure Virtual Network.")]
         public string StaticIP { get; set; }
 
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "A hash table which represents tags.")]
+        public Hashtable Tags { get; set; }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "List of zones.")]
+        [ValidateNotNullOrEmpty]
+        public string[] Zones { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
@@ -150,7 +157,8 @@ namespace Microsoft.Azure.Commands.RedisCache
                 }
             }
 
-            var redisResource = CacheClient.CreateCache(ResourceGroupName, Name, Location, skuFamily, skuCapacity, Sku, RedisConfiguration, EnableNonSslPort, TenantSettings, ShardCount, SubnetId, StaticIP);
+            var redisResource = CacheClient.CreateCache(ResourceGroupName, Name, Location, skuFamily, skuCapacity, Sku, RedisConfiguration, EnableNonSslPort, 
+                TenantSettings, ShardCount, SubnetId, StaticIP, Tags, Zones);
             var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
             WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
         }

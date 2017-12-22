@@ -16,14 +16,15 @@ namespace Microsoft.Azure.Commands.RedisCache
 {
     using Microsoft.Azure.Commands.RedisCache.Models;
     using Microsoft.Azure.Commands.RedisCache.Properties;
+    using Microsoft.Azure.Management.Redis.Models;
     using ResourceManager.Common.ArgumentCompleters;
-    using System;
     using System.Management.Automation;
+    using Rest.Azure;
 
-    [Cmdlet(VerbsCommon.Set, "AzureRmRedisCacheDiagnostics"), OutputType(typeof(void))]
-    public class SetAzureRedisCacheDiagnostics : RedisCacheCmdletBase
+    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheFirewallRule"), OutputType(typeof(PSRedisFirewallRule))]
+    public class NewAzureRedisCacheFirewallRule : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group under which cache exists.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
         [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
@@ -32,15 +33,33 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "ARM Resource Id for storage account.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
         [ValidateNotNullOrEmpty]
-        public string StorageAccountId { get; set; }
+        public string RuleName { get; set; }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Starting IP address.")]
+        [ValidateNotNullOrEmpty]
+        public string StartIP { get; set; }
+
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Ending IP address.")]
+        [ValidateNotNullOrEmpty]
+        public string EndIP { get; set; }
 
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            RedisCacheAttributes cache = new RedisCacheAttributes(CacheClient.GetCache(ResourceGroupName, Name), ResourceGroupName);
-            CacheClient.SetDiagnostics(cache.Id, StorageAccountId);
+            RedisFirewallRule redisFirewallRule = CacheClient.SetFirewallRule(
+                resourceGroupName: ResourceGroupName,
+                cacheName: Name,
+                ruleName: RuleName,
+                startIP: StartIP,
+                endIP: EndIP);
+
+            if (redisFirewallRule == null)
+            {
+                throw new CloudException(string.Format(Resources.FirewallRuleCreationFailed));
+            }
+            WriteObject(new PSRedisFirewallRule(ResourceGroupName, Name, redisFirewallRule));
         }
     }
 }

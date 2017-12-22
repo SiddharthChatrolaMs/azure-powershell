@@ -61,6 +61,24 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation to create firewall rule failed..
+        /// </summary>
+        internal static string FirewallRuleCreationFailed {
+            get {
+                return ResourceManager.GetString("FirewallRuleCreationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cache &apos;{0}&apos; does not have a firewall rule with name &apos;{1}&apos;..
+        /// </summary>
+        internal static string FirewallRuleNotFound {
+            get {
+                return ResourceManager.GetString("FirewallRuleNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to import data into redis cache &apos;{0}&apos;?.
         /// </summary>
         internal static string ImportingRedisCache {
@@ -79,6 +97,15 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LinkedRedisCacheId should be a valid Redis Cache Id of the form &quot;/subscriptions/&lt;subscription id&gt;/resourceGroups/&lt;resource group name&gt;/providers/Microsoft.Cache/Redis/&lt;cache name&gt;&quot;. .
+        /// </summary>
+        internal static string InvalidLinkedRedisCacheId {
+            get {
+                return ResourceManager.GetString("InvalidLinkedRedisCacheId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name should not contain &apos;/&apos; or &apos;.&apos;. Name should be the plain, short name of the redis cache, e.g. &apos;mycache&apos;. (Not a fully qualified DNS name, and not an Azure resource identifier.).
         /// </summary>
         internal static string InvalidRedisCacheName {
@@ -93,6 +120,24 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         internal static string InvalidResourceGroupName {
             get {
                 return ResourceManager.GetString("InvalidResourceGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation to link cache &apos;{0}&apos; to cache &apos;{1}&apos; failed..
+        /// </summary>
+        internal static string LinkedServerCreationFailed {
+            get {
+                return ResourceManager.GetString("LinkedServerCreationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cache &apos;{0}&apos; does not have any linked cache with name &apos;{0}&apos;..
+        /// </summary>
+        internal static string LinkedServerNotFound {
+            get {
+                return ResourceManager.GetString("LinkedServerNotFound", resourceCulture);
             }
         }
         
@@ -201,15 +246,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         internal static string StorageAccountIdException {
             get {
                 return ResourceManager.GetString("StorageAccountIdException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string test {
-            get {
-                return ResourceManager.GetString("test", resourceCulture);
             }
         }
     }

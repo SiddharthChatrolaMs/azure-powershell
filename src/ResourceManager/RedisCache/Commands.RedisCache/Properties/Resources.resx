@@ -165,4 +165,19 @@
   <data name="PatchScheduleNotFound" xml:space="preserve">
     <value>There are no patch schedules found for redis cache '{0}'.</value>
   </data>
+  <data name="FirewallRuleCreationFailed" xml:space="preserve">
+    <value>Operation to create firewall rule failed.</value>
+  </data>
+  <data name="FirewallRuleNotFound" xml:space="preserve">
+    <value>Cache '{0}' does not have a firewall rule with name '{1}'.</value>
+  </data>
+  <data name="LinkedServerCreationFailed" xml:space="preserve">
+    <value>Operation to link cache '{0}' to cache '{1}' failed.</value>
+  </data>
+  <data name="LinkedServerNotFound" xml:space="preserve">
+    <value>Cache '{0}' does not have any linked cache with name '{0}'.</value>
+  </data>
+  <data name="InvalidLinkedRedisCacheId" xml:space="preserve">
+    <value>LinkedRedisCacheId should be a valid Redis Cache Id of the form "/subscriptions/&lt;subscription id&gt;/resourceGroups/&lt;resource group name&gt;/providers/Microsoft.Cache/Redis/&lt;cache name&gt;". </value>
+  </data>
 </root>

@@ -62,6 +62,9 @@ namespace Microsoft.Azure.Commands.RedisCache
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "The number of shards to create on a Premium Cluster Cache.")]
         public int? ShardCount { get; set; }
 
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "A hash table which represents tags.")]
+        public Hashtable Tags { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
@@ -102,7 +105,8 @@ namespace Microsoft.Azure.Commands.RedisCache
                 ShardCount = response.ShardCount;
             }
 
-            var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, skuName, RedisConfiguration, EnableNonSslPort, TenantSettings, ShardCount);
+            var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, skuName, RedisConfiguration, EnableNonSslPort, 
+                TenantSettings, ShardCount, Tags);
             var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
             WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
         }
