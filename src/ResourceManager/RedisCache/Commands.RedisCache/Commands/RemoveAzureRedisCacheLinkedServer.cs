@@ -16,8 +16,9 @@ namespace Microsoft.Azure.Commands.RedisCache
 {
     using ResourceManager.Common.ArgumentCompleters;
     using System.Management.Automation;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheLinkedServer", SupportsShouldProcess = true), OutputType(typeof(void))]
+    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheLinkedServer", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureRedisCacheLinkedServer : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
@@ -33,11 +34,30 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string LinkedRedisCacheId { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             string linkedCacheName = Utility.GetCacheNameFromLinkedRedisCacheId(LinkedRedisCacheId);
-            CacheClient.RemoveLinkedServer(ResourceGroupName, Name, linkedCacheName);
+            
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemovingLinkedServer, linkedCacheName, Name),
+                string.Format(Resources.RemoveLinkedServer, linkedCacheName, Name),
+                Name,
+                () =>
+                {
+                    CacheClient.RemoveLinkedServer(ResourceGroupName, Name, linkedCacheName);
+                    if (PassThru)
+                    {
+                        WriteObject(true);
+                    }
+                });
         }
     }
 }

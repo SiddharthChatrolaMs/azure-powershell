@@ -16,8 +16,9 @@ namespace Microsoft.Azure.Commands.RedisCache
 {
     using ResourceManager.Common.ArgumentCompleters;
     using System.Management.Automation;
+    using Properties;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheFirewallRule", SupportsShouldProcess = true), OutputType(typeof(void))]
+    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheFirewallRule", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureRedisCacheFirewallRule : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
@@ -33,10 +34,28 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string RuleName { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            CacheClient.RemoveFirewallRule(ResourceGroupName, Name, RuleName);
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemovingFirewallRule, RuleName, Name),
+                string.Format(Resources.RemoveFirewallRule, RuleName, Name),
+                Name,
+                () =>
+                {
+                    CacheClient.RemoveFirewallRule(ResourceGroupName, Name, RuleName);
+                    if (PassThru)
+                    {
+                        WriteObject(true);
+                    }
+                });
         }
     }
 }

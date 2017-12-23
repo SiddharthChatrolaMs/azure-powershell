@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using Rest.Azure;
 
-    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheLinkedServer"), OutputType(typeof(PSRedisLinkedServer))]
+    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheLinkedServer", SupportsShouldProcess = true), OutputType(typeof(PSRedisLinkedServer))]
     public class NewAzureRedisCacheLinkedServer : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
@@ -48,25 +48,37 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string ServerRole { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             string linkedCacheName = Utility.GetCacheNameFromLinkedRedisCacheId(LinkedRedisCacheId);
             ReplicationRole replicationRole = (ReplicationRole)Enum.Parse(typeof(ReplicationRole), ServerRole, true);
 
-            RedisLinkedServerWithProperties redisLinkedServer = CacheClient.SetLinkedServer(
-               resourceGroupName: ResourceGroupName,
-               cacheName: Name,
-               linkedCacheName: linkedCacheName,
-               linkedCacheId: LinkedRedisCacheId,
-               linkedCacheLocation: LinkedRedisCacheLocation,
-               serverRole: replicationRole
-               );
-            if (redisLinkedServer == null)
-            {
-                throw new CloudException(string.Format(Resources.LinkedServerCreationFailed, linkedCacheName, Name));
-            }
-            WriteObject(new PSRedisLinkedServer(ResourceGroupName, Name, redisLinkedServer));
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.ShouldLinkRedisCache, linkedCacheName, Name),
+                string.Format(Resources.LinkingRedisCache, linkedCacheName, Name),
+                Name,
+                () =>
+                {
+                    RedisLinkedServerWithProperties redisLinkedServer = CacheClient.SetLinkedServer(
+                       resourceGroupName: ResourceGroupName,
+                       cacheName: Name,
+                       linkedCacheName: linkedCacheName,
+                       linkedCacheId: LinkedRedisCacheId,
+                       linkedCacheLocation: LinkedRedisCacheLocation,
+                       serverRole: replicationRole);
+
+                    if (redisLinkedServer == null)
+                    {
+                        throw new CloudException(string.Format(Resources.LinkedServerCreationFailed, linkedCacheName, Name));
+                    }
+                    WriteObject(new PSRedisLinkedServer(ResourceGroupName, Name, redisLinkedServer));
+                }
+            );
         }
     }
 }

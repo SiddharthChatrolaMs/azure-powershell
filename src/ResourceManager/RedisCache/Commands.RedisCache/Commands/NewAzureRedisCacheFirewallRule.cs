@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using Rest.Azure;
 
-    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheFirewallRule"), OutputType(typeof(PSRedisFirewallRule))]
+    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheFirewallRule", SupportsShouldProcess = true), OutputType(typeof(PSRedisFirewallRule))]
     public class NewAzureRedisCacheFirewallRule : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
@@ -45,21 +45,33 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string EndIP { get; set; }
 
+        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
+        public SwitchParameter Force { get; set; }
+
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            RedisFirewallRule redisFirewallRule = CacheClient.SetFirewallRule(
-                resourceGroupName: ResourceGroupName,
-                cacheName: Name,
-                ruleName: RuleName,
-                startIP: StartIP,
-                endIP: EndIP);
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.ShouldCreateFirewallRule, Name),
+                string.Format(Resources.CreatingFirewallRule, Name),
+                Name,
+                () =>
+                {
+                    RedisFirewallRule redisFirewallRule = CacheClient.SetFirewallRule(
+                        resourceGroupName: ResourceGroupName,
+                        cacheName: Name,
+                        ruleName: RuleName,
+                        startIP: StartIP,
+                        endIP: EndIP);
 
-            if (redisFirewallRule == null)
-            {
-                throw new CloudException(string.Format(Resources.FirewallRuleCreationFailed));
-            }
-            WriteObject(new PSRedisFirewallRule(ResourceGroupName, Name, redisFirewallRule));
+                    if (redisFirewallRule == null)
+                    {
+                        throw new CloudException(string.Format(Resources.FirewallRuleCreationFailed));
+                    }
+                    WriteObject(new PSRedisFirewallRule(ResourceGroupName, Name, redisFirewallRule));
+                }
+            );
         }
     }
 }
