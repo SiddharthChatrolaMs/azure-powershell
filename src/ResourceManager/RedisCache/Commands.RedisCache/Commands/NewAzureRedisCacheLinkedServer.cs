@@ -34,7 +34,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Id of redis cache, which should be linked to current cache.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Id of redis cache which should be linked to current cache.")]
         [ValidateNotNullOrEmpty]
         public string LinkedRedisCacheId { get; set; }
 
