@@ -26,9 +26,8 @@ namespace Microsoft.Azure.Commands.RedisCache
     [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCachePatchSchedule", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureRedisCachePatchSchedule : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
-        [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
@@ -44,7 +43,8 @@ namespace Microsoft.Azure.Commands.RedisCache
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            
+            ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
+
             ConfirmAction(
                 Force.IsPresent,
                 string.Format(Resources.RemovingPatchSchedule, Name),

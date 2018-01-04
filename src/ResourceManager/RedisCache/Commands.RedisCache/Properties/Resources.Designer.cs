@@ -61,6 +61,15 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Redis Cache with name &apos;{0}&apos; does not exists..
+        /// </summary>
+        internal static string CacheNotFound {
+            get {
+                return ResourceManager.GetString("CacheNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating firewall rule on Redis Cache &apos;{0}&apos;....
         /// </summary>
         internal static string CreatingFirewallRule {
@@ -115,11 +124,11 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LinkedRedisCacheId should be a valid Redis Cache Id of the form &quot;/subscriptions/&lt;subscription id&gt;/resourceGroups/&lt;resource group name&gt;/providers/Microsoft.Cache/Redis/&lt;cache name&gt;&quot;. .
+        ///   Looks up a localized string similar to Redis Cache Id &apos;{0}&apos;is not valid. Redis Cache Id should be of the form &quot;/subscriptions/&lt;subscription id&gt;/resourceGroups/&lt;resource group name&gt;/providers/Microsoft.Cache/Redis/&lt;cache name&gt;&quot;. .
         /// </summary>
-        internal static string InvalidLinkedRedisCacheId {
+        internal static string InvalidRedisCacheId {
             get {
-                return ResourceManager.GetString("InvalidLinkedRedisCacheId", resourceCulture);
+                return ResourceManager.GetString("InvalidRedisCacheId", resourceCulture);
             }
         }
         
@@ -151,7 +160,7 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cache &apos;{0}&apos; does not have any linked cache with name &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Cache &apos;{0}&apos; does not have any linked cache with name &apos;{1}&apos;..
         /// </summary>
         internal static string LinkedServerNotFound {
             get {

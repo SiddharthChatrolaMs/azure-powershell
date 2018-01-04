@@ -25,9 +25,8 @@ namespace Microsoft.Azure.Commands.RedisCache
     [Cmdlet(VerbsCommon.Get, "AzureRmRedisCacheLinkedServer"), OutputType(typeof(List<PSRedisLinkedServer>))]
     public class GetAzureRedisCacheLinkedServer : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
-        [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
@@ -40,9 +39,10 @@ namespace Microsoft.Azure.Commands.RedisCache
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
+            ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
             if (!string.IsNullOrEmpty(LinkedRedisCacheId))
             {
-                string linkedCacheName = Utility.GetCacheNameFromLinkedRedisCacheId(LinkedRedisCacheId);
+                string linkedCacheName = Utility.GetCacheNameFromRedisCacheId(LinkedRedisCacheId);
                 RedisLinkedServerWithProperties redisLinkedServer = CacheClient.GetLinkedServer(
                     resourceGroupName: ResourceGroupName,
                     cacheName: Name,

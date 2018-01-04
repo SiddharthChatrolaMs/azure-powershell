@@ -22,15 +22,26 @@ namespace Microsoft.Azure.Commands.RedisCache
             }
         }
 
-        public static string GetCacheNameFromLinkedRedisCacheId(string id)
+        public static string GetCacheNameFromRedisCacheId(string id)
         {
             //Id looks like this: "/subscriptions/<subscription id>/resourceGroups/<resource group name>/providers/Microsoft.Cache/Redis/<cache name>"
             string[] e = id.Split('/');
             if (e.Length != 9)
             {
-                throw new ArgumentException(Resources.InvalidLinkedRedisCacheId);
+                throw new ArgumentException(string.Format(Resources.InvalidRedisCacheId, id));
             }
             return e[8];
+        }
+
+        public static string GetResourceGroupNameFromRedisCacheId(string id)
+        {
+            //Id looks like this: "/subscriptions/<subscription id>/resourceGroups/<resource group name>/providers/Microsoft.Cache/Redis/<cache name>"
+            string[] e = id.Split('/');
+            if (e.Length != 9)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidRedisCacheId, id));
+            }
+            return e[4];
         }
     }
 }

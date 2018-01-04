@@ -28,6 +28,8 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Collections.Generic;
     using System.ComponentModel;
     using Models;
+    using System;
+    using Properties;
 
     public class RedisCacheClient
     {
@@ -171,6 +173,29 @@ namespace Microsoft.Azure.Commands.RedisCache
         public RedisResource GetCache(string resourceGroupName, string cacheName)
         {
             return _client.Redis.Get(resourceGroupName: resourceGroupName, name: cacheName);
+        }
+
+        public RedisResource GetCache(string cacheName)
+        {
+            IPage<RedisResource> allInSub = ListCaches(null);
+            foreach (var cache in allInSub)
+            {
+                if (cache.Name.Equals(cacheName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return cache;
+                }
+            }
+            throw new ArgumentException(string.Format(Resources.CacheNotFound, cacheName));
+        }
+
+        public string GetResourceGroupNameIfNotProvided(string resourceGroupName, string cacheName)
+        {
+            if (string.IsNullOrEmpty(resourceGroupName))
+            {
+                RedisResource response = GetCache(cacheName);
+                return Utility.GetResourceGroupNameFromRedisCacheId(response.Id);
+            }
+            return resourceGroupName;
         }
 
         public IPage<RedisResource> ListCaches(string resourceGroupName)

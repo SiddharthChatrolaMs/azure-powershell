@@ -25,9 +25,8 @@ namespace Microsoft.Azure.Commands.RedisCache
     [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheLinkedServer", SupportsShouldProcess = true), OutputType(typeof(PSRedisLinkedServer))]
     public class NewAzureRedisCacheLinkedServer : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of resource group in which cache exists.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
-        [ValidateNotNullOrEmpty]
         public string ResourceGroupName { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
@@ -54,7 +53,8 @@ namespace Microsoft.Azure.Commands.RedisCache
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            string linkedCacheName = Utility.GetCacheNameFromLinkedRedisCacheId(LinkedRedisCacheId);
+            ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
+            string linkedCacheName = Utility.GetCacheNameFromRedisCacheId(LinkedRedisCacheId);
             ReplicationRole replicationRole = (ReplicationRole)Enum.Parse(typeof(ReplicationRole), ServerRole, true);
 
             ConfirmAction(

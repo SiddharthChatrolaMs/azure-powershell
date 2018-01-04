@@ -62,7 +62,7 @@ namespace Microsoft.Azure.Commands.RedisCache.Models
                 else
                 {
                     // if resource group name is null (when try to get all cache in given subscription it will be null) we have to fetch it from Id.
-                    _resourceGroupName = Id.Split('/')[4];
+                    _resourceGroupName = Utility.GetResourceGroupNameFromRedisCacheId(Id);
                 }
             }
         }
