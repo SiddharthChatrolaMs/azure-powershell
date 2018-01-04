@@ -79,15 +79,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creating patching schedule on Redis Cache &apos;{0}&apos;....
-        /// </summary>
-        internal static string CreatingPatchSchedule {
-            get {
-                return ResourceManager.GetString("CreatingPatchSchedule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Operation to create firewall rule failed..
         /// </summary>
         internal static string FirewallRuleCreationFailed {
@@ -259,15 +250,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing patching schedule from Redis Cache &apos;{0}&apos;....
-        /// </summary>
-        internal static string RemovePatchSchedule {
-            get {
-                return ResourceManager.GetString("RemovePatchSchedule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Removing redis cache &apos;{0}&apos; ....
         /// </summary>
         internal static string RemoveRedisCache {
@@ -304,15 +286,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to remove patching schedule from Redis Cache &apos;{0}&apos;?.
-        /// </summary>
-        internal static string RemovingPatchSchedule {
-            get {
-                return ResourceManager.GetString("RemovingPatchSchedule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove redis cache &apos;{0}&apos;?.
         /// </summary>
         internal static string RemovingRedisCache {
@@ -340,15 +313,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to create patching schedule on Redis Cache &apos;{0}&apos;?.
-        /// </summary>
-        internal static string ShouldCreatePatchSchedule {
-            get {
-                return ResourceManager.GetString("ShouldCreatePatchSchedule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure, you want to link Redis Cache &apos;{0}&apos; to &apos;{1}&apos;?.
         /// </summary>
         internal static string ShouldLinkRedisCache {
@@ -363,24 +327,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         internal static string StorageAccountIdException {
             get {
                 return ResourceManager.GetString("StorageAccountIdException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Updating redis cache &apos;{0}&apos; ....
-        /// </summary>
-        internal static string UpdateRedisCache {
-            get {
-                return ResourceManager.GetString("UpdateRedisCache", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to update redis cache &apos;{0}&apos;?.
-        /// </summary>
-        internal static string UpdatingRedisCache {
-            get {
-                return ResourceManager.GetString("UpdatingRedisCache", resourceCulture);
             }
         }
     }

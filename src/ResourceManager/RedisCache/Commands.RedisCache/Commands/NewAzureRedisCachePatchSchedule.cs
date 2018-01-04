@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using DayOfWeekEnum = Management.Redis.Models.DayOfWeek;
 
-    [Cmdlet(VerbsCommon.New, "AzureRmRedisCachePatchSchedule", SupportsShouldProcess = true), OutputType(typeof(List<PSScheduleEntry>))]
+    [Cmdlet(VerbsCommon.New, "AzureRmRedisCachePatchSchedule"), OutputType(typeof(List<PSScheduleEntry>))]
     public class NewAzureRedisCachePatchSchedule : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
@@ -37,9 +37,6 @@ namespace Microsoft.Azure.Commands.RedisCache
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "List of patch schedules (PSScheduleEntry) that needed to be set on redis cache.")]
         [ValidateNotNullOrEmpty]
         public PSScheduleEntry[] Entries { get; set; }
-
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
-        public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -58,27 +55,18 @@ namespace Microsoft.Azure.Commands.RedisCache
                 });
             }
 
-            ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.ShouldCreatePatchSchedule, Name),
-                string.Format(Resources.CreatingPatchSchedule, Name),
-                Name,
-                () =>
+            IList<ScheduleEntry> response = CacheClient.SetPatchSchedules(ResourceGroupName, Name, requestData);
+            List<PSScheduleEntry> returnValue = new List<PSScheduleEntry>();
+            foreach (var schedule in response)
+            {
+                returnValue.Add(new PSScheduleEntry
                 {
-                    IList<ScheduleEntry> response = CacheClient.SetPatchSchedules(ResourceGroupName, Name, requestData);
-                    List<PSScheduleEntry> returnValue = new List<PSScheduleEntry>();
-                    foreach (var schedule in response)
-                    {
-                        returnValue.Add(new PSScheduleEntry
-                        {
-                            DayOfWeek = schedule.DayOfWeek.ToString(),
-                            StartHourUtc = schedule.StartHourUtc,
-                            MaintenanceWindow = schedule.MaintenanceWindow
-                        });
-                    }
-                    WriteObject(returnValue);
-                }
-            );
+                    DayOfWeek = schedule.DayOfWeek.ToString(),
+                    StartHourUtc = schedule.StartHourUtc,
+                    MaintenanceWindow = schedule.MaintenanceWindow
+                });
+            }
+            WriteObject(returnValue);
         }
     }
 }

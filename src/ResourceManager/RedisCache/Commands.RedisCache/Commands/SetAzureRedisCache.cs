@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using SkuStrings = Microsoft.Azure.Management.Redis.Models.SkuName;
 
-    [Cmdlet(VerbsCommon.Set, "AzureRmRedisCache", SupportsShouldProcess = true), OutputType(typeof(RedisCacheAttributesWithAccessKeys))]
+    [Cmdlet(VerbsCommon.Set, "AzureRmRedisCache"), OutputType(typeof(RedisCacheAttributesWithAccessKeys))]
     public class SetAzureRedisCache : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group under which you want to create cache.")]
@@ -61,9 +61,6 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "A hash table which represents tags.")]
         public Hashtable Tags { get; set; }
-
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
-        public SwitchParameter Force { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -114,19 +111,10 @@ namespace Microsoft.Azure.Commands.RedisCache
                 ShardCount = response.ShardCount;
             }
 
-            ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.UpdatingRedisCache, Name),
-                string.Format(Resources.UpdateRedisCache, Name),
-                Name,
-                () =>
-                {
-                    var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, skuName, RedisConfiguration, EnableNonSslPort,
+            var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, skuName, RedisConfiguration, EnableNonSslPort,
                         TenantSettings, ShardCount, Tags);
-                    var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
-                    WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
-                }
-            );
+            var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
+            WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
         }
     }
 }
