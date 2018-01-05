@@ -51,19 +51,12 @@ namespace Microsoft.Azure.Commands.RedisCache
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
-            if (!Force.IsPresent)
-            {
-                ConfirmAction(
+            ConfirmAction(
                 Force.IsPresent,
                 string.Format(Resources.RebootingRedisCache, Name, RebootType),
                 string.Format(Resources.RebootRedisCache, Name),
                 Name,
                 () => CacheClient.RebootCache(ResourceGroupName, Name, RebootType, ShardId));
-            }
-            else
-            {
-                CacheClient.RebootCache(ResourceGroupName, Name, RebootType, ShardId);
-            }
 
             if (PassThru)
             {

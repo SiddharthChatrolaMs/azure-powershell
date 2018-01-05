@@ -49,19 +49,12 @@ namespace Microsoft.Azure.Commands.RedisCache
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
-            if (!Force.IsPresent)
-            {
-                ConfirmAction(
+            ConfirmAction(
                 Force.IsPresent,
                 string.Format(Resources.ImportingRedisCache, Name),
                 string.Format(Resources.ImportRedisCache, Name),
                 Name,
                 () => CacheClient.ImportToCache(ResourceGroupName, Name, Files, Format));
-            }
-            else
-            {
-                CacheClient.ImportToCache(ResourceGroupName, Name, Files, Format);
-            }
 
             if (PassThru)
             {
