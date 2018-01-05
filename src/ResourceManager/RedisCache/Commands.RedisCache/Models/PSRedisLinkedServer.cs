@@ -19,30 +19,35 @@ namespace Microsoft.Azure.Commands.RedisCache.Models
 
     public class PSRedisLinkedServer
     {
-        public string Name { get; set; }
-        public string ResourceGroupName { get; set; }
-
-        public string LinkedServerId { get; set; }
-        public string Type { get; set; }
+        public string PrimaryServerName { get; set; }
+        public string SecondaryServerName { get; set; }
         public string ProvisioningState { get; set; }
-        public string LinkedRedisCacheId { get; set; }
-        public string LinkedRedisCacheLocation { get; set; }
-        public string ServerRole { get; set; }
-        
 
         public PSRedisLinkedServer() { }
 
-        internal PSRedisLinkedServer(string resourceGroupName, string cacheName, RedisLinkedServerWithProperties redisLinkedServer)
+        internal PSRedisLinkedServer(RedisLinkedServerWithProperties redisLinkedServer)
         {
-            Name = cacheName;
-            ResourceGroupName = resourceGroupName;
-
-            LinkedServerId = redisLinkedServer.Id;
-            Type = redisLinkedServer.Type;
             ProvisioningState = redisLinkedServer.ProvisioningState;
-            LinkedRedisCacheId = redisLinkedServer.LinkedRedisCacheId;
-            LinkedRedisCacheLocation = redisLinkedServer.LinkedRedisCacheLocation;
-            ServerRole = redisLinkedServer.ServerRole.ToString();
+            if (redisLinkedServer.ServerRole == ReplicationRole.Primary)
+            {
+                /* ID is of the form: 
+                   "/subscriptions/<subscription id>/resourceGroups/<resource group name>/providers/Microsoft.Cache/Redis/
+                   <primary cache name>/linkedServers/<secondary cache name>"
+                */
+                string[] ele = redisLinkedServer.Id.Split('/');
+                PrimaryServerName = ele[8];
+                SecondaryServerName = ele[10];
+            }
+            else
+            {
+                /* ID is of the form: 
+                   "/subscriptions/<subscription id>/resourceGroups/<resource group name>/providers/Microsoft.Cache/Redis/
+                   <secondary cache name>/linkedServers/<primary cache name>"
+                */
+                string[] ele = redisLinkedServer.Id.Split('/');
+                PrimaryServerName = ele[10];
+                SecondaryServerName = ele[8];
+            }
         }
     }
 }

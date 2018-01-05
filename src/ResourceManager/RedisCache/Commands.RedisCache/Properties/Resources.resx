@@ -175,7 +175,7 @@
     <value>Operation to link cache '{0}' to cache '{1}' failed.</value>
   </data>
   <data name="LinkedServerNotFound" xml:space="preserve">
-    <value>Cache '{0}' does not have any linked cache with name '{1}'.</value>
+    <value>Primary Cache '{0}' does not have link with secondary cache '{1}'.</value>
   </data>
   <data name="InvalidRedisCacheId" xml:space="preserve">
     <value>Redis Cache Id '{0}'is not valid. Redis Cache Id should be of the form "/subscriptions/&lt;subscription id&gt;/resourceGroups/&lt;resource group name&gt;/providers/Microsoft.Cache/Redis/&lt;cache name&gt;". </value>
@@ -206,5 +206,8 @@
   </data>
   <data name="CacheNotFound" xml:space="preserve">
     <value>Redis Cache with name '{0}' does not exists.</value>
+  </data>
+  <data name="LinkServerIncompatibleParameterException" xml:space="preserve">
+    <value>Parameter 'Name' is not compatible with parameters 'PrimaryServerName' and/or 'SecondaryServerName'.</value>
   </data>
 </root>

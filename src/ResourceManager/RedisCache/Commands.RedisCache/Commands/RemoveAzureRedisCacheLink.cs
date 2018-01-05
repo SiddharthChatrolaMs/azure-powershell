@@ -18,20 +18,16 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using Properties;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheLinkedServer", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureRedisCacheLinkedServer : RedisCacheCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheLink", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureRedisCacheLink : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
-        [ResourceGroupCompleter]
-        public string ResourceGroupName { get; set; }
-
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of primary redis cache in link.")]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public string PrimaryServerName { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Id of linked redis cache.")]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of secondary redis cache in link.")]
         [ValidateNotNullOrEmpty]
-        public string LinkedRedisCacheId { get; set; }
+        public string SecondaryServerName { get; set; }
 
         [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
         public SwitchParameter Force { get; set; }
@@ -41,18 +37,18 @@ namespace Microsoft.Azure.Commands.RedisCache
 
         public override void ExecuteCmdlet()
         {
-            Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
-            ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
-            string linkedCacheName = Utility.GetCacheNameFromRedisCacheId(LinkedRedisCacheId);
+            Utility.ValidateResourceGroupAndResourceName(null, PrimaryServerName);
+            Utility.ValidateResourceGroupAndResourceName(null, SecondaryServerName);
+            string resourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(null, PrimaryServerName);
 
             ConfirmAction(
                 Force.IsPresent,
-                string.Format(Resources.RemovingLinkedServer, linkedCacheName, Name),
-                string.Format(Resources.RemoveLinkedServer, linkedCacheName, Name),
-                Name,
+                string.Format(Resources.RemovingLinkedServer, SecondaryServerName, PrimaryServerName),
+                string.Format(Resources.RemoveLinkedServer, SecondaryServerName, PrimaryServerName),
+                PrimaryServerName,
                 () =>
                 {
-                    CacheClient.RemoveLinkedServer(ResourceGroupName, Name, linkedCacheName);
+                    CacheClient.RemoveLinkedServer(resourceGroupName, PrimaryServerName, SecondaryServerName);
                     if (PassThru)
                     {
                         WriteObject(true);

@@ -151,7 +151,7 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cache &apos;{0}&apos; does not have any linked cache with name &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Primary Cache &apos;{0}&apos; does not have link with secondary cache &apos;{1}&apos;..
         /// </summary>
         internal static string LinkedServerNotFound {
             get {
@@ -165,6 +165,15 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         internal static string LinkingRedisCache {
             get {
                 return ResourceManager.GetString("LinkingRedisCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;Name&apos; is not compatible with parameters &apos;PrimaryServerName&apos; and/or &apos;SecondaryServerName&apos;..
+        /// </summary>
+        internal static string LinkServerIncompatibleParameterException {
+            get {
+                return ResourceManager.GetString("LinkServerIncompatibleParameterException", resourceCulture);
             }
         }
         
