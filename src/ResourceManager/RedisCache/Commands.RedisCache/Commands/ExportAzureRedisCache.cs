@@ -20,7 +20,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using Microsoft.Azure.Commands.RedisCache.Properties;
     using ResourceManager.Common.ArgumentCompleters;
 
-    [Cmdlet(VerbsData.Export, "AzureRmRedisCache"), OutputType(typeof(bool))]
+    [Cmdlet(VerbsData.Export, "AzureRmRedisCache", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class ExportAzureRedisCache : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group under which cache exists.")]
@@ -50,12 +50,17 @@ namespace Microsoft.Azure.Commands.RedisCache
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
-            CacheClient.ExportToCache(ResourceGroupName, Name, Container, Prefix, Format);
-            
-            if (PassThru)
-            {
-                WriteObject(true);
-            }
+            ConfirmAction(
+              string.Format(Resources.ExportRedisCache, Name),
+              Name,
+              () =>
+              {
+                  CacheClient.ExportToCache(ResourceGroupName, Name, Container, Prefix, Format);
+                  if (PassThru)
+                  {
+                      WriteObject(true);
+                  }
+              });
         }
     }
 }

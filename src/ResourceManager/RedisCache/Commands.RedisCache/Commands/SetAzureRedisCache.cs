@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using SkuStrings = Microsoft.Azure.Management.Redis.Models.SkuName;
 
-    [Cmdlet(VerbsCommon.Set, "AzureRmRedisCache"), OutputType(typeof(RedisCacheAttributesWithAccessKeys))]
+    [Cmdlet(VerbsCommon.Set, "AzureRmRedisCache", SupportsShouldProcess = true), OutputType(typeof(RedisCacheAttributesWithAccessKeys))]
     public class SetAzureRedisCache : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group under which you want to create cache.")]
@@ -111,10 +111,16 @@ namespace Microsoft.Azure.Commands.RedisCache
                 ShardCount = response.ShardCount;
             }
 
-            var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, skuName, RedisConfiguration, EnableNonSslPort,
-                        TenantSettings, ShardCount, Tags);
-            var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
-            WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
+            ConfirmAction(
+              string.Format(Resources.UpdateRedisCache, Name),
+              Name,
+              () =>
+              {
+                  var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, 
+                      skuName, RedisConfiguration, EnableNonSslPort, TenantSettings, ShardCount, Tags);
+                  var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
+                  WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
+              });
         }
     }
 }

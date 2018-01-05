@@ -23,7 +23,7 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using DayOfWeekEnum = Management.Redis.Models.DayOfWeek;
 
-    [Cmdlet(VerbsCommon.New, "AzureRmRedisCachePatchSchedule"), OutputType(typeof(List<PSScheduleEntry>))]
+    [Cmdlet(VerbsCommon.New, "AzureRmRedisCachePatchSchedule", SupportsShouldProcess = true), OutputType(typeof(List<PSScheduleEntry>))]
     public class NewAzureRedisCachePatchSchedule : RedisCacheCmdletBase
     {
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
@@ -55,18 +55,24 @@ namespace Microsoft.Azure.Commands.RedisCache
                 });
             }
 
-            IList<ScheduleEntry> response = CacheClient.SetPatchSchedules(ResourceGroupName, Name, requestData);
-            List<PSScheduleEntry> returnValue = new List<PSScheduleEntry>();
-            foreach (var schedule in response)
-            {
-                returnValue.Add(new PSScheduleEntry
-                {
-                    DayOfWeek = schedule.DayOfWeek.ToString(),
-                    StartHourUtc = schedule.StartHourUtc,
-                    MaintenanceWindow = schedule.MaintenanceWindow
-                });
-            }
-            WriteObject(returnValue);
+            ConfirmAction(
+              string.Format(Resources.CreatePatchSchedule, Name),
+              Name,
+              () => 
+              {
+                  IList<ScheduleEntry> response = CacheClient.SetPatchSchedules(ResourceGroupName, Name, requestData);
+                  List<PSScheduleEntry> returnValue = new List<PSScheduleEntry>();
+                  foreach (var schedule in response)
+                  {
+                      returnValue.Add(new PSScheduleEntry
+                      {
+                          DayOfWeek = schedule.DayOfWeek.ToString(),
+                          StartHourUtc = schedule.StartHourUtc,
+                          MaintenanceWindow = schedule.MaintenanceWindow
+                      });
+                  }
+                  WriteObject(returnValue);
+              });
         }
     }
 }
