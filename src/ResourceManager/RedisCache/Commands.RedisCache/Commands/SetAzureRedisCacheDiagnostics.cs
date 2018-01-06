@@ -39,6 +39,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
+            string storageAccountName = GetStorageAccountName(StorageAccountId);
 
             RedisCacheAttributes cache = new RedisCacheAttributes(CacheClient.GetCache(ResourceGroupName, Name), ResourceGroupName);
             ConfirmAction(
@@ -46,8 +47,27 @@ namespace Microsoft.Azure.Commands.RedisCache
               Name,
               () => 
               {
-                  CacheClient.SetDiagnostics(cache.Id, StorageAccountId);
+                  CacheClient.SetDiagnostics(cache.Id, storageAccountName);
               });
+        }
+
+        private string GetStorageAccountName(string storageAccountId)
+        {
+            Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
+            if (string.IsNullOrEmpty(storageAccountId))
+            {
+                throw new ArgumentException(Resources.StorageAccountIdException);
+            }
+            else
+            {
+                string[] resourceParts = storageAccountId.Split('/');
+                // Valid ARM uri when split on '/' should have 9 parts. Ex: /subscriptions/<sub-id>/resourceGroups/<resource group name>/providers/Microsoft.ClassicStorage/storageAccounts/<account name>
+                if (resourceParts.Length != 9)
+                {
+                    throw new ArgumentException(Resources.StorageAccountIdException);
+                }
+                return resourceParts[8];
+            }
         }
     }
 }
