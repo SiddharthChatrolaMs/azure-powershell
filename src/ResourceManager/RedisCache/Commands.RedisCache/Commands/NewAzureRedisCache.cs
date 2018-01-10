@@ -84,8 +84,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "A hash table which represents tags.")]
         public Hashtable Tags { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "List of zones.")]
-        [ValidateNotNullOrEmpty]
+        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "List of zones.")]
         public string[] Zones { get; set; }
 
         public override void ExecuteCmdlet()

@@ -155,6 +155,12 @@ namespace Microsoft.Azure.Commands.RedisCache
                 parameters.TenantSettings = new Dictionary<string, string>();
                 foreach (object key in tenantSettings.Keys)
                 {
+                    // RP should disregard "InternalDependencyList" passed from user (it happens because of piping scenario)
+                    string stringKey = key.ToString();
+                    if (stringKey.Equals("InternalDependencyList", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        continue;
+                    }
                     parameters.TenantSettings.Add(key.ToString(), tenantSettings[key].ToString());
                 }
             }

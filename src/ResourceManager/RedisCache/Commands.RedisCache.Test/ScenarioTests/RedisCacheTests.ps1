@@ -6,14 +6,14 @@ function Test-RedisCache
 {
     # Setup
     $resourceGroupName = "PowerShellTest-1"
-    $cacheName = "powershelltest"
+    $cacheName = "redisteam001"
     $location = "West US"
 
     # Create resource group
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $location
 
     # Creating Cache
-    $cacheCreated = New-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Location $location -Size 1GB -Sku Standard
+    $cacheCreated = New-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Location $location -Size P1 -Sku Premium
     
     Assert-AreEqual $cacheName $cacheCreated.Name
     Assert-AreEqual $location $cacheCreated.Location
@@ -23,9 +23,8 @@ function Test-RedisCache
     Assert-AreEqual 6379 $cacheCreated.Port
     Assert-AreEqual 6380 $cacheCreated.SslPort
     Assert-AreEqual "creating" $cacheCreated.ProvisioningState
-    Assert-AreEqual "3.0" $cacheCreated.RedisVersion
-    Assert-AreEqual "1GB" $cacheCreated.Size
-    Assert-AreEqual "Standard" $cacheCreated.Sku
+    Assert-AreEqual "6GB" $cacheCreated.Size
+    Assert-AreEqual "Premium" $cacheCreated.Sku
     
     Assert-NotNull $cacheCreated.PrimaryKey "PrimaryKey do not exists"
     Assert-NotNull $cacheCreated.SecondaryKey "SecondaryKey do not exists"
@@ -38,35 +37,19 @@ function Test-RedisCache
         if ([string]::Compare("succeeded", $cacheGet[0].ProvisioningState, $True) -eq 0)
         {
             Assert-AreEqual $cacheName $cacheGet[0].Name
-            Assert-AreEqual $location $cacheGet[0].Location
-            Assert-AreEqual "Microsoft.Cache/Redis" $cacheGet[0].Type
-            Assert-AreEqual $resourceGroupName $cacheGet[0].ResourceGroupName
-    
-            Assert-AreEqual 6379 $cacheGet[0].Port
-            Assert-AreEqual 6380 $cacheGet[0].SslPort
             Assert-AreEqual "succeeded" $cacheGet[0].ProvisioningState
-            Assert-AreEqual "3.0" $cacheGet[0].RedisVersion
-            Assert-AreEqual "1GB" $cacheGet[0].Size
-            Assert-AreEqual "Standard" $cacheGet[0].Sku
             break
         }
         Assert-False {$i -eq 60} "Cache is not in succeeded state even after 30 min."
     }
 
     # Updating Cache
-    $cacheUpdated = Set-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -RedisConfiguration @{"maxmemory-policy" = "allkeys-lru"} -EnableNonSslPort $true
+    $cacheUpdated = Set-AzureRmRedisCache -Name $cacheName -RedisConfiguration @{"maxmemory-policy" = "allkeys-lru"} -EnableNonSslPort $true
     
     Assert-AreEqual $cacheName $cacheUpdated.Name
-    Assert-AreEqual $location $cacheUpdated.Location
-    Assert-AreEqual "Microsoft.Cache/Redis" $cacheUpdated.Type
-    Assert-AreEqual $resourceGroupName $cacheUpdated.ResourceGroupName
-    
     Assert-AreEqual 6379 $cacheUpdated.Port
     Assert-AreEqual 6380 $cacheUpdated.SslPort
     Assert-AreEqual "succeeded" $cacheUpdated.ProvisioningState
-    Assert-AreEqual "3.0" $cacheUpdated.RedisVersion
-    Assert-AreEqual "1GB" $cacheUpdated.Size
-    Assert-AreEqual "Standard" $cacheUpdated.Sku
     Assert-AreEqual "allkeys-lru" $cacheUpdated.RedisConfiguration.Item("maxmemory-policy")
     Assert-True  { $cacheUpdated.EnableNonSslPort }
 
@@ -81,18 +64,10 @@ function Test-RedisCache
     for ($i = 0; $i -lt $cachesInResourceGroup.Count; $i++)
     {
         if ($cachesInResourceGroup[$i].Name -eq $cacheName)
-        {
+        { 
             $found = 1
             Assert-AreEqual $location $cachesInResourceGroup[$i].Location
-            Assert-AreEqual "Microsoft.Cache/Redis" $cachesInResourceGroup[$i].Type
             Assert-AreEqual $resourceGroupName $cachesInResourceGroup[$i].ResourceGroupName
-    
-            Assert-AreEqual 6379 $cachesInResourceGroup[$i].Port
-            Assert-AreEqual 6380 $cachesInResourceGroup[$i].SslPort
-            Assert-AreEqual "succeeded" $cachesInResourceGroup[$i].ProvisioningState
-            Assert-AreEqual "3.0" $cachesInResourceGroup[$i].RedisVersion
-            Assert-AreEqual "1GB" $cachesInResourceGroup[$i].Size
-            Assert-AreEqual "Standard" $cachesInResourceGroup[$i].Sku
             break
         }
     }
@@ -110,15 +85,7 @@ function Test-RedisCache
         {
             $found = 1
             Assert-AreEqual $location $cachesInSubscription[$i].Location
-            Assert-AreEqual "Microsoft.Cache/Redis" $cachesInSubscription[$i].Type
             Assert-AreEqual $resourceGroupName $cachesInSubscription[$i].ResourceGroupName
-    
-            Assert-AreEqual 6379 $cachesInSubscription[$i].Port
-            Assert-AreEqual 6380 $cachesInSubscription[$i].SslPort
-            Assert-AreEqual "succeeded" $cachesInSubscription[$i].ProvisioningState
-            Assert-AreEqual "3.0" $cachesInSubscription[$i].RedisVersion
-            Assert-AreEqual "1GB" $cachesInSubscription[$i].Size
-            Assert-AreEqual "Standard" $cachesInSubscription[$i].Sku
             break
         }
     }
@@ -164,14 +131,14 @@ function Test-RedisCachePipeline
 {
     # Setup
     $resourceGroupName = "PowerShellTest-2"
-    $cacheName = "powershelltestpipe"
+    $cacheName = "redisteam002"
     $location = "West US"
 
     # Create resource group
     New-AzureRmResourceGroup -Name $resourceGroupName -Location $location
 
     # Creating Cache
-    $cacheCreated = New-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Location $location -Size 1GB -Sku Basic -EnableNonSslPort $true
+    $cacheCreated = New-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Location $location -Size 1GB -Sku Standard -EnableNonSslPort $true
     
     Assert-AreEqual $cacheName $cacheCreated.Name
     Assert-AreEqual $location $cacheCreated.Location
@@ -181,9 +148,8 @@ function Test-RedisCachePipeline
     Assert-AreEqual 6379 $cacheCreated.Port
     Assert-AreEqual 6380 $cacheCreated.SslPort
     Assert-AreEqual "creating" $cacheCreated.ProvisioningState
-    Assert-AreEqual "3.0" $cacheCreated.RedisVersion
     Assert-AreEqual "1GB" $cacheCreated.Size
-    Assert-AreEqual "Basic" $cacheCreated.Sku
+    Assert-AreEqual "Standard" $cacheCreated.Sku
     Assert-True { $cacheCreated.EnableNonSslPort }
     
     Assert-NotNull $cacheCreated.PrimaryKey "PrimaryKey do not exists"
@@ -197,16 +163,6 @@ function Test-RedisCachePipeline
         if ([string]::Compare("succeeded", $cacheGet[0].ProvisioningState, $True) -eq 0)
         {
             Assert-AreEqual $cacheName $cacheGet[0].Name
-            Assert-AreEqual $location $cacheGet[0].Location
-            Assert-AreEqual "Microsoft.Cache/Redis" $cacheGet[0].Type
-            Assert-AreEqual $resourceGroupName $cacheGet[0].ResourceGroupName
-    
-            Assert-AreEqual 6379 $cacheGet[0].Port
-            Assert-AreEqual 6380 $cacheGet[0].SslPort
-            Assert-AreEqual "succeeded" $cacheGet[0].ProvisioningState
-            Assert-AreEqual "3.0" $cacheGet[0].RedisVersion
-            Assert-AreEqual "1GB" $cacheGet[0].Size
-            Assert-AreEqual "Basic" $cacheGet[0].Sku
             break
         }
         Assert-False {$i -eq 60} "Cache is not in succeeded state even after 30 min."
@@ -214,19 +170,16 @@ function Test-RedisCachePipeline
 
     # Updating Cache using pipeline
     Get-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName | Set-AzureRmRedisCache -RedisConfiguration @{"maxmemory-policy" = "allkeys-random"} -EnableNonSslPort $false
-    $cacheUpdatedPiped = Get-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName 
+    $cacheUpdatedPiped = Get-AzureRmRedisCache -Name $cacheName 
     
     Assert-AreEqual $cacheName $cacheUpdatedPiped.Name
     Assert-AreEqual $location $cacheUpdatedPiped.Location
-    Assert-AreEqual "Microsoft.Cache/Redis" $cacheUpdatedPiped.Type
     Assert-AreEqual $resourceGroupName $cacheUpdatedPiped.ResourceGroupName
-    
     Assert-AreEqual 6379 $cacheUpdatedPiped.Port
     Assert-AreEqual 6380 $cacheUpdatedPiped.SslPort
     Assert-AreEqual "succeeded" $cacheUpdatedPiped.ProvisioningState
-    Assert-AreEqual "3.0" $cacheUpdatedPiped.RedisVersion
     Assert-AreEqual "1GB" $cacheUpdatedPiped.Size
-    Assert-AreEqual "Basic" $cacheUpdatedPiped.Sku
+    Assert-AreEqual "Standard" $cacheUpdatedPiped.Sku
     Assert-AreEqual "allkeys-random"  $cacheUpdatedPiped.RedisConfiguration.Item("maxmemory-policy")
     Assert-False  { $cacheUpdatedPiped.EnableNonSslPort } 
     
@@ -270,7 +223,7 @@ function Test-RedisCacheClustering
 {
     # Setup
     $resourceGroupName = "PowerShellTest-3"
-    $cacheName = "powershellcluster"
+    $cacheName = "redisteam003"
     $location = "West US"
 
     # Create resource group
@@ -329,11 +282,7 @@ function Test-RedisCacheClustering
         {
             $found = 1
             Assert-AreEqual $location $cachesInResourceGroup[$i].Location
-            Assert-AreEqual "Microsoft.Cache/Redis" $cachesInResourceGroup[$i].Type
             Assert-AreEqual $resourceGroupName $cachesInResourceGroup[$i].ResourceGroupName
-    
-            Assert-AreEqual 6379 $cachesInResourceGroup[$i].Port
-            Assert-AreEqual 6380 $cachesInResourceGroup[$i].SslPort
             Assert-AreEqual "succeeded" $cachesInResourceGroup[$i].ProvisioningState
             Assert-AreEqual "6GB" $cacheCreated.Size
             Assert-AreEqual "Premium" $cacheCreated.Sku
@@ -355,11 +304,7 @@ function Test-RedisCacheClustering
         {
             $found = 1
             Assert-AreEqual $location $cachesInSubscription[$i].Location
-            Assert-AreEqual "Microsoft.Cache/Redis" $cachesInSubscription[$i].Type
             Assert-AreEqual $resourceGroupName $cachesInSubscription[$i].ResourceGroupName
-    
-            Assert-AreEqual 6379 $cachesInSubscription[$i].Port
-            Assert-AreEqual 6380 $cachesInSubscription[$i].SslPort
             Assert-AreEqual "succeeded" $cachesInSubscription[$i].ProvisioningState
             Assert-AreEqual "6GB" $cacheCreated.Size
             Assert-AreEqual "Premium" $cacheCreated.Sku
@@ -394,7 +339,7 @@ function Test-RedisCachePatchSchedules
 {
     # Setup
     $resourceGroupName = "PowerShellTest-4"
-    $cacheName = "powershelltests4"
+    $cacheName = "redisteam004"
     $location = "West US"
     
     ############################# Initial Creation ############################# 
@@ -549,9 +494,9 @@ function Test-ImportExportReboot
 {
     # Setup
     $resourceGroupName = "PowerShellTest-5"
-    $cacheName = "importexporttest"
+    $cacheName = "redisteam005"
     $location = "West US"
-    $storageName = "powershelltest1"
+    $storageName = "redisteam005s"
     $storageContainerName = "exportimport" 
     $prefix = "sunny"
 
@@ -584,18 +529,18 @@ function Test-ImportExportReboot
     Get-SasForContainer $resourceGroupName $storageName $storageContainerName ([ref]$sasKeyForContainer)
     
     # Tests ExportRMAzureRedisCache
-    Export-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Prefix $prefix -Container $sasKeyForContainer
+    Export-AzureRmRedisCache -Name $cacheName -Prefix $prefix -Container $sasKeyForContainer
 
     # Get SAS token for blob
     $sasKeyForBlob = "" 
     Get-SasForBlob $resourceGroupName $storageName $storageContainerName $prefix ([ref]$sasKeyForBlob)
 
     # Tests ImportAzureRmRedisCache
-    Import-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Files @($sasKeyForBlob) -Force
+    Import-AzureRmRedisCache -Name $cacheName -Files @($sasKeyForBlob) -Force
     
     ############################# Tests ResetRMAzureRedisCache ############################# 
     $rebootType = "PrimaryNode"
-    Reset-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -RebootType $rebootType -Force
+    Reset-AzureRmRedisCache -Name $cacheName -RebootType $rebootType -Force
     Start-TestSleep 120000
     
     ############################# CleanUp ############################# 
@@ -615,9 +560,9 @@ function Test-DiagnosticOperations
 {
     # Setup
     $resourceGroupName = "PowerShellTest-6"
-    $cacheName = "powershelltests6"
+    $cacheName = "redisteam006"
     $location = "West US"
-    $storageName = "powershelltest2"
+    $storageName = "redisteam006s"
     
     ############################# Initial Creation ############################# 
     # Create resource group
