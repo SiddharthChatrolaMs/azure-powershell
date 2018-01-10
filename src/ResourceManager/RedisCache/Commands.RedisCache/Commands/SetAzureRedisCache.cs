@@ -60,7 +60,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         public int? ShardCount { get; set; }
 
         [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "A hash table which represents tags.")]
-        public Hashtable Tags { get; set; }
+        public Hashtable Tag { get; set; }
 
         public override void ExecuteCmdlet()
         {
@@ -117,7 +117,7 @@ namespace Microsoft.Azure.Commands.RedisCache
               () =>
               {
                   var redisResource = CacheClient.UpdateCache(ResourceGroupName, Name, skuFamily, skuCapacity, 
-                      skuName, RedisConfiguration, EnableNonSslPort, TenantSettings, ShardCount, Tags);
+                      skuName, RedisConfiguration, EnableNonSslPort, TenantSettings, ShardCount, Tag);
                   var redisAccessKeys = CacheClient.GetAccessKeys(ResourceGroupName, Name);
                   WriteObject(new RedisCacheAttributesWithAccessKeys(redisResource, redisAccessKeys, ResourceGroupName));
               });

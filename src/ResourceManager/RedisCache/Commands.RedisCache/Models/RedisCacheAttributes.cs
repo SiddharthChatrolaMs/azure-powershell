@@ -39,8 +39,8 @@ namespace Microsoft.Azure.Commands.RedisCache.Models
             StaticIP = cache.StaticIP;
             TenantSettings = cache.TenantSettings;
             ShardCount = cache.ShardCount;
-            Tags = cache.Tags;
-            Zones = cache.Zones;
+            Tag = cache.Tags;
+            Zone = cache.Zones;
         }
 
         public RedisCacheAttributes() { }
@@ -101,8 +101,8 @@ namespace Microsoft.Azure.Commands.RedisCache.Models
 
         public string StaticIP { get; protected set; }
 
-        public IDictionary<string, string> Tags { get; protected set; }
+        public IDictionary<string, string> Tag { get; protected set; }
 
-        public IList<string> Zones { get; protected set; }
+        public IList<string> Zone { get; protected set; }
     }
 }
