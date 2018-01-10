@@ -44,17 +44,12 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string EndIP { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
-        public SwitchParameter Force { get; set; }
-
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
             ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.ShouldCreateFirewallRule, Name),
                 string.Format(Resources.CreatingFirewallRule, Name),
                 Name,
                 () =>

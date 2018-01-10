@@ -33,9 +33,6 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string SecondaryServerName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
-        public SwitchParameter Force { get; set; }
-
         public override void ExecuteCmdlet()
         {
             Utility.ValidateResourceGroupAndResourceName(null, PrimaryServerName);
@@ -45,8 +42,6 @@ namespace Microsoft.Azure.Commands.RedisCache
             RedisResource secondaryCache = CacheClient.GetCache(SecondaryServerName);
 
             ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.ShouldLinkRedisCache, SecondaryServerName, PrimaryServerName),
                 string.Format(Resources.LinkingRedisCache, SecondaryServerName, PrimaryServerName),
                 PrimaryServerName,
                 () =>

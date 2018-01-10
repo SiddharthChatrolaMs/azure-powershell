@@ -29,9 +29,6 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string SecondaryServerName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
-        public SwitchParameter Force { get; set; }
-
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
@@ -42,8 +39,6 @@ namespace Microsoft.Azure.Commands.RedisCache
             string resourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(null, PrimaryServerName);
 
             ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.RemovingLinkedServer, SecondaryServerName, PrimaryServerName),
                 string.Format(Resources.RemoveLinkedServer, SecondaryServerName, PrimaryServerName),
                 PrimaryServerName,
                 () =>

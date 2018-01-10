@@ -313,24 +313,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to remove firewall rule &apos;{0}&apos; from Redis Cache &apos;{1}&apos;?.
-        /// </summary>
-        internal static string RemovingFirewallRule {
-            get {
-                return ResourceManager.GetString("RemovingFirewallRule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to unlink Redis Cache &apos;{0}&apos; from &apos;{1}&apos;?.
-        /// </summary>
-        internal static string RemovingLinkedServer {
-            get {
-                return ResourceManager.GetString("RemovingLinkedServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove redis cache &apos;{0}&apos;?.
         /// </summary>
         internal static string RemovingRedisCache {
@@ -354,24 +336,6 @@ namespace Microsoft.Azure.Commands.RedisCache.Properties {
         internal static string SetRedisCacheDiagnostics {
             get {
                 return ResourceManager.GetString("SetRedisCacheDiagnostics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to create firewall rule on Redis Cache &apos;{0}&apos;?.
-        /// </summary>
-        internal static string ShouldCreateFirewallRule {
-            get {
-                return ResourceManager.GetString("ShouldCreateFirewallRule", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure, you want to link Redis Cache &apos;{0}&apos; to &apos;{1}&apos;?.
-        /// </summary>
-        internal static string ShouldLinkRedisCache {
-            get {
-                return ResourceManager.GetString("ShouldLinkRedisCache", resourceCulture);
             }
         }
         

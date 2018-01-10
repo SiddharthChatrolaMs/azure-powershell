@@ -33,9 +33,6 @@ namespace Microsoft.Azure.Commands.RedisCache
         [ValidateNotNullOrEmpty]
         public string RuleName { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Do not ask for confirmation.")]
-        public SwitchParameter Force { get; set; }
-
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
@@ -45,8 +42,6 @@ namespace Microsoft.Azure.Commands.RedisCache
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
             ConfirmAction(
-                Force.IsPresent,
-                string.Format(Resources.RemovingFirewallRule, RuleName, Name),
                 string.Format(Resources.RemoveFirewallRule, RuleName, Name),
                 Name,
                 () =>
