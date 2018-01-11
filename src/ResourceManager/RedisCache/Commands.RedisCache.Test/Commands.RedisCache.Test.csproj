@@ -236,6 +236,12 @@
     <None Include="SessionRecords\Microsoft.Azure.Commands.RedisCache.Test.ScenarioTests.RedisCacheTests\TestDiagnosticOperations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SessionRecords\Microsoft.Azure.Commands.RedisCache.Test.ScenarioTests.RedisCacheTests\TestFirewallRule.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Microsoft.Azure.Commands.RedisCache.Test.ScenarioTests.RedisCacheTests\TestGeoReplication.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SessionRecords\Microsoft.Azure.Commands.RedisCache.Test.ScenarioTests.RedisCacheTests\TestImportExportReboot.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -252,6 +258,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SessionRecords\Microsoft.Azure.Commands.RedisCache.Test.ScenarioTests.RedisCacheTests\TestSetNonExistingRedisCacheTest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SessionRecords\Microsoft.Azure.Commands.RedisCache.Test.ScenarioTests.RedisCacheTests\TestZones.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

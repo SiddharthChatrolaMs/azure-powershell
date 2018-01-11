@@ -77,7 +77,7 @@ namespace Microsoft.Azure.Commands.RedisCache
                         cacheName: PrimaryServerName,
                         linkedCacheName: SecondaryServerName);
 
-                    if (redisLinkedServer == null || redisLinkedServer.ServerRole != ReplicationRole.Primary)
+                    if (redisLinkedServer == null || redisLinkedServer.ServerRole != ReplicationRole.Secondary)
                     {
                         throw new CloudException(string.Format(Resources.LinkedServerNotFound, PrimaryServerName, SecondaryServerName));
                     }

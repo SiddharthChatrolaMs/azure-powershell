@@ -336,7 +336,7 @@ namespace Microsoft.Azure.Commands.RedisCache
         internal RedisLinkedServerWithProperties SetLinkedServer(string resourceGroupName, string cacheName, 
             string linkedCacheName, string linkedCacheId, string linkedCacheLocation, ReplicationRole serverRole)
         {
-            return _client.LinkedServer.Create(resourceGroupName, cacheName, linkedCacheName, new RedisLinkedServerCreateParameters
+            return _client.LinkedServer.BeginCreate(resourceGroupName, cacheName, linkedCacheName, new RedisLinkedServerCreateParameters
             {
                 LinkedRedisCacheId = linkedCacheId,
                 LinkedRedisCacheLocation = linkedCacheLocation,

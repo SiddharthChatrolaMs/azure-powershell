@@ -35,8 +35,8 @@ namespace Microsoft.Azure.Commands.RedisCache.Models
                    <primary cache name>/linkedServers/<secondary cache name>"
                 */
                 string[] ele = redisLinkedServer.Id.Split('/');
-                PrimaryServerName = ele[8];
-                SecondaryServerName = ele[10];
+                PrimaryServerName = ele[10];
+                SecondaryServerName = ele[8];
             }
             else
             {
@@ -45,8 +45,8 @@ namespace Microsoft.Azure.Commands.RedisCache.Models
                    <secondary cache name>/linkedServers/<primary cache name>"
                 */
                 string[] ele = redisLinkedServer.Id.Split('/');
-                PrimaryServerName = ele[10];
-                SecondaryServerName = ele[8];
+                PrimaryServerName = ele[8];
+                SecondaryServerName = ele[10];
             }
         }
     }
