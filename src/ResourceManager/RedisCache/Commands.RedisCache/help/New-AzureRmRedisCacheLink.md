@@ -1,36 +1,33 @@
 ---
 external help file: Microsoft.Azure.Commands.RedisCache.dll-Help.xml
 Module Name: AzureRM.RedisCache
-ms.assetid: BCF989AE-A718-4AFE-B7C0-8B148468D4EE
-online version: https://docs.microsoft.com/en-us/powershell/module/azurerm.rediscache/remove-azurermrediscachediagnostics
+online version:
 schema: 2.0.0
 ---
 
-# Remove-AzureRmRedisCacheDiagnostics
+# New-AzureRmRedisCacheLink
 
 ## SYNOPSIS
-Disables diagnostics on an Azure Redis Cache.
+{{Fill in the Synopsis}}
 
 ## SYNTAX
 
 ```
-Remove-AzureRmRedisCacheDiagnostics [-ResourceGroupName <String>] -Name <String>
+New-AzureRmRedisCacheLink -PrimaryServerName <String> -SecondaryServerName <String>
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The **Remove-AzureRmRedisCacheDiagnostics** cmdlet disables diagnostics on an Azure Redis Cache.
+{{Fill in the Description}}
 
 ## EXAMPLES
 
-### Example 1: Disable diagnostics
-```
-PS C:\>Remove-AzureRmRedisCacheDiagnostics -ResourceGroupName "ContosoResourceGroup" -Name "PeakCache" -Force
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-This command disables diagnostics on specified Azure Redis Cache.
-
-This disables diagnostics for all Azure Redis Caches in the same region for the subscription.
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -49,8 +46,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Specifies the name of the cache.
+### -PrimaryServerName
+Name of primary redis cache in link.
 
 ```yaml
 Type: String
@@ -64,15 +61,15 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -ResourceGroupName
-Specifies the name of the resource group that contains the cache.
+### -SecondaryServerName
+Name of secondary redis cache in link.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -89,7 +86,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -105,27 +102,25 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None
+### System.String
+
 
 ## OUTPUTS
 
-### Void
+### Microsoft.Azure.Commands.RedisCache.Models.PSRedisLinkedServer
+
 
 ## NOTES
-* Keywords: azure, azurerm, arm, resource, management, manager, redis, cache, web, webapp, website
 
 ## RELATED LINKS
-
-[Set-AzureRmRedisCacheDiagnostics](./Set-AzureRmRedisCacheDiagnostics.md)
-
-

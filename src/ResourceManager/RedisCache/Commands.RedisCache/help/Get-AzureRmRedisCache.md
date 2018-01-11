@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: Microsoft.Azure.Commands.RedisCache.dll-Help.xml
 Module Name: AzureRM.RedisCache
 ms.assetid: 8EF45FCE-5475-4A18-BFB0-C016E239612E
@@ -13,20 +13,8 @@ Gets a Redis Cache.
 
 ## SYNTAX
 
-### GetAllInSubscription (Default)
 ```
-Get-AzureRmRedisCache [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
-```
-
-### GetByResourceGroup
-```
-Get-AzureRmRedisCache -ResourceGroupName <String> [-DefaultProfile <IAzureContextContainer>]
- [<CommonParameters>]
-```
-
-### GetByRedisCache
-```
-Get-AzureRmRedisCache -ResourceGroupName <String> -Name <String> [-DefaultProfile <IAzureContextContainer>]
+Get-AzureRmRedisCache [-ResourceGroupName <String>] [-Name <String>] [-DefaultProfile <IAzureContextContainer>]
  [<CommonParameters>]
 ```
 
@@ -179,10 +167,10 @@ Use with the *ResourceGroupName* parameter.
 
 ```yaml
 Type: String
-Parameter Sets: GetByRedisCache
-Aliases: 
+Parameter Sets: (All)
+Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -196,10 +184,10 @@ If you specify only the *ResourceGroupName* parameter, this operation gets every
 
 ```yaml
 Type: String
-Parameter Sets: GetByResourceGroup, GetByRedisCache
-Aliases: 
+Parameter Sets: (All)
+Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

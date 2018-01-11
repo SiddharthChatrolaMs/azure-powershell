@@ -1,34 +1,33 @@
 ---
 external help file: Microsoft.Azure.Commands.RedisCache.dll-Help.xml
 Module Name: AzureRM.RedisCache
-ms.assetid: 2EA765B8-D82B-4789-8F10-88F79BDF44D0
-online version: https://docs.microsoft.com/en-us/powershell/module/azurerm.rediscache/remove-azurermrediscachepatchschedule
+online version:
 schema: 2.0.0
 ---
 
-# Remove-AzureRmRedisCachePatchSchedule
+# Remove-AzureRmRedisCacheFirewallRule
 
 ## SYNOPSIS
-Removes the patch schedule.
+{{Fill in the Synopsis}}
 
 ## SYNTAX
 
 ```
-Remove-AzureRmRedisCachePatchSchedule [-ResourceGroupName <String>] -Name <String> [-PassThru]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-AzureRmRedisCacheFirewallRule [-ResourceGroupName <String>] -Name <String> -RuleName <String>
+ [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The **Remove-AzureRmRedisCachePatchSchedule** cmdlet removes the patch schedule from a cache in Azure Redis Cache.
+{{Fill in the Description}}
 
 ## EXAMPLES
 
-### Example 1: Remove the patch schedule
-```
-PS C:\>Remove-AzureRmRedisCachePatchSchedule -ResourceGroupName "ResourceGroup13" -Name "RedisCache06"
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-This command removes the patch schedule from the cache named RedisCache06.
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -48,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Specifies the name of a cache.
+Name of redis cache.
 
 ```yaml
 Type: String
@@ -78,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceGroupName
-Specifies the name of the resource group which contains the cache.
+Name of resource group in which cache exists.
 
 ```yaml
 Type: String
@@ -86,6 +85,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -RuleName
+Name of firewall rule.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
@@ -102,7 +116,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -118,32 +132,25 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### None
-You can pipe input to this cmdlet by property name, but not by value.
+### System.String
+
 
 ## OUTPUTS
 
-### None
+### System.Boolean
+
 
 ## NOTES
-* Keywords: azure, azurerm, arm, resource, management, manager, redis, cache, web, webapp, website
 
 ## RELATED LINKS
-
-[Get-AzureRmRedisCachePatchSchedule](./Get-AzureRmRedisCachePatchSchedule.md)
-
-[New-AzureRmRedisCachePatchSchedule](./New-AzureRmRedisCachePatchSchedule.md)
-
-[New-AzureRmRedisCacheScheduleEntry](./New-AzureRmRedisCacheScheduleEntry.md)
-
-
