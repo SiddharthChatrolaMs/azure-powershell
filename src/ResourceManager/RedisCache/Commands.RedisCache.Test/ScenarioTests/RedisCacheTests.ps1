@@ -728,7 +728,10 @@ function Test-FirewallRule
     $rule1EndIp = "10.0.0.32" 
     $rule2 = "ruletwo"
     $rule2StartIp = "10.0.0.64" 
-    $rule2EndIp = "10.0.0.128" 
+    $rule2EndIp = "10.0.0.128"
+    $rule3 = "rulethree"
+    $rule3StartIp = "10.0.0.33" 
+    $rule3EndIp = "10.0.0.63" 
 
     ############################# Initial Creation ############################# 
     # Create resource group
@@ -751,17 +754,23 @@ function Test-FirewallRule
     }
 
     ############################# NewAzureRedisCacheFirewallRule ############################# 
-    # Set firewall rule for 10.0.0.0 to 10.0.0.32
+    # Set firewall rule using parameter
     $rule1Created = New-AzureRmRedisCacheFirewallRule -Name $cacheName -RuleName $rule1 -StartIP $rule1StartIp -EndIP $rule1EndIp
     Assert-AreEqual $rule1StartIp $rule1Created.StartIP
     Assert-AreEqual $rule1EndIp $rule1Created.EndIP
     Assert-AreEqual $rule1 $rule1Created.RuleName
 
-    # Set firewall rule for 10.0.0.64 to 10.0.0.128
-    $rule2Created = New-AzureRmRedisCacheFirewallRule -Name $cacheName -RuleName $rule2 -StartIP $rule2StartIp -EndIP $rule2EndIp
+    # Set firewall rule using piping from Get
+    $rule2Created = Get-AzureRmRedisCache -Name $cacheName | New-AzureRmRedisCacheFirewallRule -RuleName $rule2 -StartIP $rule2StartIp -EndIP $rule2EndIp
     Assert-AreEqual $rule2StartIp $rule2Created.StartIP
     Assert-AreEqual $rule2EndIp $rule2Created.EndIP
     Assert-AreEqual $rule2 $rule2Created.RuleName
+
+    # Set firewall rule using piping from ResourceId
+    $rule3Created = Find-AzureRmResource -ResourceGroupNameEquals $resourceGroupName -ResourceNameEquals $cacheName | New-AzureRmRedisCacheFirewallRule -RuleName $rule3 -StartIP $rule3StartIp -EndIP $rule3EndIp
+    Assert-AreEqual $rule3StartIp $rule3Created.StartIP
+    Assert-AreEqual $rule3EndIp $rule3Created.EndIP
+    Assert-AreEqual $rule3 $rule3Created.RuleName
 
     ############################# GetAzureRedisCacheFirewallRule ############################# 
     # Get single firewall rule
@@ -772,7 +781,7 @@ function Test-FirewallRule
     
     # Get all firewall rules
     $allRulesGet = Get-AzureRmRedisCacheFirewallRule -Name $cacheName
-    for ($i = 0; $i -le 1; $i++)
+    for ($i = 0; $i -le 2; $i++)
     {
         if($allRulesGet[$i].RuleName -eq $rule1)
         {
@@ -784,6 +793,11 @@ function Test-FirewallRule
             Assert-AreEqual $rule2StartIp $allRulesGet[$i].StartIP
             Assert-AreEqual $rule2EndIp $allRulesGet[$i].EndIP
         }
+        elseif($allRulesGet[$i].RuleName -eq $rule3)
+        {
+            Assert-AreEqual $rule3StartIp $allRulesGet[$i].StartIP
+            Assert-AreEqual $rule3EndIp $allRulesGet[$i].EndIP
+        }
         else
         {
             Assert-False $True "unknown firewall rule"
@@ -794,15 +808,12 @@ function Test-FirewallRule
 
     # Verify that rule is deleted
     $allRulesGet = Get-AzureRmRedisCacheFirewallRule -Name $cacheName
-    Assert-AreEqual 1 $allRulesGet.Count
-    Assert-AreEqual $rule2StartIp $allRulesGet[0].StartIP
-    Assert-AreEqual $rule2EndIp $allRulesGet[0].EndIP
-    Assert-AreEqual $rule2 $allRulesGet[0].RuleName
+    Assert-AreEqual 2 $allRulesGet.Count
+    
+    # Remove firewall rules using piping
+    Get-AzureRmRedisCacheFirewallRule -Name $cacheName | Remove-AzureRmRedisCacheFirewallRule -PassThru
 
-    # Remove firewall rule using piping
-    Assert-True { Get-AzureRmRedisCacheFirewallRule -Name $cacheName | Remove-AzureRmRedisCacheFirewallRule -PassThru} "Removing firewall rule 'ruletwo' failed."
-
-    # Verify that rule is deleted
+    # Verify that all rules are deleted
     $allRulesGet = Get-AzureRmRedisCacheFirewallRule -Name $cacheName
     Assert-AreEqual 0 $allRulesGet.Count
     

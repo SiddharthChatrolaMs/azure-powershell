@@ -19,34 +19,34 @@ namespace Microsoft.Azure.Commands.RedisCache
     using Properties;
     using Models;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheFirewallRule", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheFirewallRule", DefaultParameterSetName = NormalParameterSet, SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureRedisCacheFirewallRule : RedisCacheCmdletBase
     {
-        private const string NormalParametrSet = "NormalParametrSet";
-        private const string InputObjectParametrSet = "PSRedisFirewallRuleObject";
+        private const string NormalParameterSet = "NormalParameterSet";
+        private const string InputObjectParameterSet = "PSRedisFirewallRuleObject";
 
-        [Parameter(ParameterSetName = NormalParametrSet, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(ParameterSetName = NormalParametrSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ParameterSetName = NormalParametrSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
         [ValidateNotNullOrEmpty]
         public string RuleName { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
-        [Parameter(ParameterSetName = InputObjectParametrSet, Mandatory = true, ValueFromPipeline = true, HelpMessage = "object of type PSRedisFirewallRule")]
+        [Parameter(ParameterSetName = InputObjectParameterSet, Mandatory = true, ValueFromPipeline = true, HelpMessage = "object of type PSRedisFirewallRule")]
         [ValidateNotNull]
         public PSRedisFirewallRule InputObject { get; set; }
 
         public override void ExecuteCmdlet()
         {
-            if (ParameterSetName.Equals(InputObjectParametrSet))
+            if (ParameterSetName.Equals(InputObjectParameterSet))
             {
                 ResourceGroupName = InputObject.ResourceGroupName;
                 Name = InputObject.Name;

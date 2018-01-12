@@ -12,7 +12,7 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### NormalParametrSet
+### NormalParameterSet (Default)
 ```
 Remove-AzureRmRedisCacheFirewallRule [-ResourceGroupName <String>] -Name <String> -RuleName <String>
  [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -71,7 +71,7 @@ Name of redis cache.
 
 ```yaml
 Type: String
-Parameter Sets: NormalParametrSet
+Parameter Sets: NormalParameterSet
 Aliases:
 
 Required: True
@@ -101,7 +101,7 @@ Name of resource group in which cache exists.
 
 ```yaml
 Type: String
-Parameter Sets: NormalParametrSet
+Parameter Sets: NormalParameterSet
 Aliases:
 
 Required: False
@@ -116,7 +116,7 @@ Name of firewall rule.
 
 ```yaml
 Type: String
-Parameter Sets: NormalParametrSet
+Parameter Sets: NormalParameterSet
 Aliases:
 
 Required: True

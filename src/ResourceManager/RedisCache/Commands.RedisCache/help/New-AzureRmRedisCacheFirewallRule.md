@@ -12,10 +12,24 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### NormalParameterSet (Default)
 ```
 New-AzureRmRedisCacheFirewallRule [-ResourceGroupName <String>] -Name <String> -RuleName <String>
  -StartIP <String> -EndIP <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
+```
+
+### RedisCacheAttributesObject
+```
+New-AzureRmRedisCacheFirewallRule -RuleName <String> -StartIP <String> -EndIP <String>
+ -InputObject <RedisCacheAttributes> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### ResourceIdParameterSet
+```
+New-AzureRmRedisCacheFirewallRule -RuleName <String> -StartIP <String> -EndIP <String> -ResourceId <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,12 +76,25 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -InputObject
+object of type RedisCacheAttributes```yaml
+Type: RedisCacheAttributes
+Parameter Sets: RedisCacheAttributesObject
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Name
 Name of redis cache.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: NormalParameterSet
 Aliases:
 
 Required: True
@@ -82,10 +109,23 @@ Name of resource group in which cache exists.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: NormalParameterSet
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ResourceId
+ARM Id of Redis Cache.```yaml
+Type: String
+Parameter Sets: ResourceIdParameterSet
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)

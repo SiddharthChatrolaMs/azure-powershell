@@ -21,31 +21,59 @@ namespace Microsoft.Azure.Commands.RedisCache
     using System.Management.Automation;
     using Rest.Azure;
 
-    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheFirewallRule", SupportsShouldProcess = true), OutputType(typeof(PSRedisFirewallRule))]
+    [Cmdlet(VerbsCommon.New, "AzureRmRedisCacheFirewallRule", DefaultParameterSetName = NormalParameterSet, SupportsShouldProcess = true), OutputType(typeof(PSRedisFirewallRule))]
     public class NewAzureRedisCacheFirewallRule : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
+        private const string NormalParameterSet = "NormalParameterSet";
+        private const string InputObjectParameterSet = "RedisCacheAttributesObject";
+        private const string ResourceIdParameterSet = "ResourceIdParameterSet";
+
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
+        [Parameter(ParameterSetName = InputObjectParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
+        [Parameter(ParameterSetName = ResourceIdParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
         [ValidateNotNullOrEmpty]
         public string RuleName { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Starting IP address.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Starting IP address.")]
+        [Parameter(ParameterSetName = InputObjectParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Starting IP address.")]
+        [Parameter(ParameterSetName = ResourceIdParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Starting IP address.")]
         [ValidateNotNullOrEmpty]
         public string StartIP { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Ending IP address.")]
+        [Parameter(ParameterSetName = NormalParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Ending IP address.")]
+        [Parameter(ParameterSetName = InputObjectParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Ending IP address.")]
+        [Parameter(ParameterSetName = ResourceIdParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Ending IP address.")]
         [ValidateNotNullOrEmpty]
         public string EndIP { get; set; }
 
+        [Parameter(ParameterSetName = InputObjectParameterSet, Mandatory = true, ValueFromPipeline = true, HelpMessage = "object of type RedisCacheAttributes")]
+        [ValidateNotNull]
+        public RedisCacheAttributes InputObject { get; set; }
+
+        [Parameter(ParameterSetName = ResourceIdParameterSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "ARM Id of Redis Cache.")]
+        [ValidateNotNullOrEmpty]
+        public string ResourceId { get; set; }
+
         public override void ExecuteCmdlet()
         {
+            // In case of piped parent object "RedisCacheAttributes" fetch ResourceGroupName and Name from it
+            if (ParameterSetName.Equals(InputObjectParameterSet))
+            {
+                FetchResourceGroupNameAndNameFromInputObject();
+            }
+            else if (ParameterSetName.Equals(ResourceIdParameterSet))
+            {
+                FetchResourceGroupNameAndNameFromResourceId();
+            }
+
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
@@ -68,6 +96,18 @@ namespace Microsoft.Azure.Commands.RedisCache
                     WriteObject(new PSRedisFirewallRule(ResourceGroupName, Name, redisFirewallRule));
                 }
             );
+        }
+
+        private void FetchResourceGroupNameAndNameFromInputObject()
+        {
+            ResourceGroupName = InputObject.ResourceGroupName;
+            Name = InputObject.Name;
+        }
+
+        private void FetchResourceGroupNameAndNameFromResourceId()
+        {
+            ResourceGroupName = Utility.GetResourceGroupNameFromRedisCacheId(ResourceId);
+            Name = Utility.GetRedisCacheNameFromRedisCacheId(ResourceId);
         }
     }
 }

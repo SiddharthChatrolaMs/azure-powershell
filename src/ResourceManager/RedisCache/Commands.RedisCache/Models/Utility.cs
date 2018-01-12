@@ -32,5 +32,16 @@ namespace Microsoft.Azure.Commands.RedisCache
             }
             return e[4];
         }
+
+        public static string GetRedisCacheNameFromRedisCacheId(string id)
+        {
+            //Id looks like this: "/subscriptions/<subscription id>/resourceGroups/<resource group name>/providers/Microsoft.Cache/Redis/<cache name>"
+            string[] e = id.Split('/');
+            if (e.Length != 9 || string.IsNullOrWhiteSpace(e[8]))
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidRedisCacheId, id));
+            }
+            return e[8];
+        }
     }
 }
