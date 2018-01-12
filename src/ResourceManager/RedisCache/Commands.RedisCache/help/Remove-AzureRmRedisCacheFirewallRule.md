@@ -12,9 +12,16 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### NormalParametrSet
 ```
 Remove-AzureRmRedisCacheFirewallRule [-ResourceGroupName <String>] -Name <String> -RuleName <String>
  [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### PSRedisFirewallRuleObject
+```
+Remove-AzureRmRedisCacheFirewallRule [-PassThru] -InputObject <PSRedisFirewallRule>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,12 +53,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -InputObject
+object of type PSRedisFirewallRule```yaml
+Type: PSRedisFirewallRule
+Parameter Sets: PSRedisFirewallRuleObject
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Name
 Name of redis cache.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: NormalParametrSet
 Aliases:
 
 Required: True
@@ -81,7 +101,7 @@ Name of resource group in which cache exists.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: NormalParametrSet
 Aliases:
 
 Required: False
@@ -96,7 +116,7 @@ Name of firewall rule.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: NormalParametrSet
 Aliases:
 
 Required: True
@@ -138,18 +158,15 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ### System.String
 
-
 ## OUTPUTS
 
 ### System.Boolean
-
 
 ## NOTES
 

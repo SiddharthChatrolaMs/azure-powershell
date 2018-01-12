@@ -790,7 +790,7 @@ function Test-FirewallRule
         }
     }
     ############################# RemoveAzureRedisCacheFirewallRule ############################# 
-    Assert-True {Remove-AzureRmRedisCacheFirewallRule -Name $cacheName -RuleName $rule1 -PassThru} "Removing firewall rule failed."
+    Assert-True {Remove-AzureRmRedisCacheFirewallRule -Name $cacheName -RuleName $rule1 -PassThru} "Removing firewall rule 'ruleone' failed."
 
     # Verify that rule is deleted
     $allRulesGet = Get-AzureRmRedisCacheFirewallRule -Name $cacheName
@@ -799,6 +799,13 @@ function Test-FirewallRule
     Assert-AreEqual $rule2EndIp $allRulesGet[0].EndIP
     Assert-AreEqual $rule2 $allRulesGet[0].RuleName
 
+    # Remove firewall rule using piping
+    Assert-True { Get-AzureRmRedisCacheFirewallRule -Name $cacheName | Remove-AzureRmRedisCacheFirewallRule -PassThru} "Removing firewall rule 'ruletwo' failed."
+
+    # Verify that rule is deleted
+    $allRulesGet = Get-AzureRmRedisCacheFirewallRule -Name $cacheName
+    Assert-AreEqual 0 $allRulesGet.Count
+    
     ############################# CleanUp ############################# 
     # Delete cache
     Assert-True {Remove-AzureRmRedisCache -ResourceGroupName $resourceGroupName -Name $cacheName -Force -PassThru} "Remove cache failed."
@@ -809,7 +816,7 @@ function Test-FirewallRule
 
 <#
 .SYNOPSIS
-Tests redis cache.
+Tests redis cache zones.
 #>
 function Test-Zones
 {

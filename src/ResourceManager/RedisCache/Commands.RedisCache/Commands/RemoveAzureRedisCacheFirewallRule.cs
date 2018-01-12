@@ -17,27 +17,42 @@ namespace Microsoft.Azure.Commands.RedisCache
     using ResourceManager.Common.ArgumentCompleters;
     using System.Management.Automation;
     using Properties;
+    using Models;
 
     [Cmdlet(VerbsCommon.Remove, "AzureRmRedisCacheFirewallRule", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureRedisCacheFirewallRule : RedisCacheCmdletBase
     {
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
+        private const string NormalParametrSet = "NormalParametrSet";
+        private const string InputObjectParametrSet = "PSRedisFirewallRuleObject";
+
+        [Parameter(ParameterSetName = NormalParametrSet, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of resource group in which cache exists.")]
         [ResourceGroupCompleter]
         public string ResourceGroupName { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
+        [Parameter(ParameterSetName = NormalParametrSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of redis cache.")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
+        [Parameter(ParameterSetName = NormalParametrSet, ValueFromPipelineByPropertyName = true, Mandatory = true, HelpMessage = "Name of firewall rule.")]
         [ValidateNotNullOrEmpty]
         public string RuleName { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(ParameterSetName = InputObjectParametrSet, Mandatory = true, ValueFromPipeline = true, HelpMessage = "object of type PSRedisFirewallRule")]
+        [ValidateNotNull]
+        public PSRedisFirewallRule InputObject { get; set; }
+
         public override void ExecuteCmdlet()
         {
+            if (ParameterSetName.Equals(InputObjectParametrSet))
+            {
+                ResourceGroupName = InputObject.ResourceGroupName;
+                Name = InputObject.Name;
+                RuleName = InputObject.RuleName;
+            }
+
             Utility.ValidateResourceGroupAndResourceName(ResourceGroupName, Name);
             ResourceGroupName = CacheClient.GetResourceGroupNameIfNotProvided(ResourceGroupName, Name);
 
