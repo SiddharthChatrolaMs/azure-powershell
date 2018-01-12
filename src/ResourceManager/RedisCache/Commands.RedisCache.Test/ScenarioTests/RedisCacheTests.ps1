@@ -590,6 +590,7 @@ function Test-DiagnosticOperations
 
     ############################# SetAzureRedisCacheDiagnostics & RemoveAzureRedisCacheDiagnostics tests #############################
     # Tests SetAzureRedisCacheDiagnostics
+    Assert-NotNull $storageAccount.Id "Storage Id cannot be null"
     Set-AzureRmRedisCacheDiagnostics -ResourceGroupName $resourceGroupName -Name $cacheName -StorageAccountId $storageAccount.Id
     
     # Tests RemoveAzureRedisCacheDiagnostics
