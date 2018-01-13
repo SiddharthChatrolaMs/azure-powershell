@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzureRmRedisCacheLink
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Remove a geo replication link between two Redis Caches.
 
 ## SYNTAX
 
@@ -18,16 +18,17 @@ Remove-AzureRmRedisCacheLink -PrimaryServerName <String> -SecondaryServerName <S
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Remove a geo replication link between two Redis Caches.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### Example 1: Remove a geo replication link 
+```
+PS C:\>Remove-AzureRmRedisCacheLink -PrimaryServerName "mycache1" -SecondaryServerName "mycache2"
 ```
 
-{{ Add example description here }}
+This command removes a geo-replication links where Redis Cache named mycache1 is primary and Redis Cache named mycache2 is secondary.
+
 
 ## PARAMETERS
 
@@ -136,3 +137,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[New-AzureRmRedisCacheLink](./New-AzureRmRedisCacheLink.md)
+
+[Get-AzureRmRedisCacheLink](./Get-AzureRmRedisCacheLink.md)
+
+[Get-AzureRmRedisCache](./Get-AzureRmRedisCache.md)
+
+[New-AzureRmRedisCache](./New-AzureRmRedisCache.md)
+
+[Remove-AzureRmRedisCache](./Remove-AzureRmRedisCache.md)
+
+[Set-AzureRmRedisCache](./Set-AzureRmRedisCache.md)

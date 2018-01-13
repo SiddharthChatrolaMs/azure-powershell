@@ -18,13 +18,13 @@ Exports data from Azure Redis Cache to a container.
 Gets a Redis Cache.
 
 ### [Get-AzureRmRedisCacheFirewallRule](Get-AzureRmRedisCacheFirewallRule.md)
-{{Fill in the Synopsis}}
+Get firewall rules set on Redis Cache.
 
 ### [Get-AzureRmRedisCacheKey](Get-AzureRmRedisCacheKey.md)
 Gets the access keys for a Redis Cache.
 
 ### [Get-AzureRmRedisCacheLink](Get-AzureRmRedisCacheLink.md)
-{{Fill in the Synopsis}}
+Get geo replication link for Redis Cache.
 
 ### [Get-AzureRmRedisCachePatchSchedule](Get-AzureRmRedisCachePatchSchedule.md)
 Gets a patch schedule.
@@ -36,13 +36,13 @@ Imports data from blobs to Azure Redis Cache.
 Creates a Redis Cache.
 
 ### [New-AzureRmRedisCacheFirewallRule](New-AzureRmRedisCacheFirewallRule.md)
-{{Fill in the Synopsis}}
+Create a firewall rule on a Redis Cache.
 
 ### [New-AzureRmRedisCacheKey](New-AzureRmRedisCacheKey.md)
 Regenerates the access key of a Redis Cache.
 
 ### [New-AzureRmRedisCacheLink](New-AzureRmRedisCacheLink.md)
-{{Fill in the Synopsis}}
+Create a geo replication link between two Redis Caches.
 
 ### [New-AzureRmRedisCachePatchSchedule](New-AzureRmRedisCachePatchSchedule.md)
 Adds a patch schedule.
@@ -57,10 +57,10 @@ Removes a Redis Cache.
 Disables diagnostics on an Azure Redis Cache.
 
 ### [Remove-AzureRmRedisCacheFirewallRule](Remove-AzureRmRedisCacheFirewallRule.md)
-{{Fill in the Synopsis}}
+Remove a firewall rule from a Redis Cache.
 
 ### [Remove-AzureRmRedisCacheLink](Remove-AzureRmRedisCacheLink.md)
-{{Fill in the Synopsis}}
+Remove a geo replication link between two Redis Caches.
 
 ### [Remove-AzureRmRedisCachePatchSchedule](Remove-AzureRmRedisCachePatchSchedule.md)
 Removes the patch schedule.

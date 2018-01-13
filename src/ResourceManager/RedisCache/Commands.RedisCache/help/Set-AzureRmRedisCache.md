@@ -45,6 +45,8 @@ PS C:\>Set-AzureRmRedisCache -ResourceGroupName "MyGroup" -Name "MyCache" -Redis
           RedisVersion       : 2.8
           Size               : 250MB
           Sku                : Standard
+          Tag                : {}
+          Zone               : []
 ```
 
 This command updates the maxmemory-policy for the Redis Cache named MyCache.

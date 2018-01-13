@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzureRmRedisCacheLink
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Create a geo replication link between two Redis Caches.
 
 ## SYNTAX
 
@@ -18,16 +18,19 @@ New-AzureRmRedisCacheLink -PrimaryServerName <String> -SecondaryServerName <Stri
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Create a geo replication link between two Redis Caches.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### Example 1: Create a link between two caches
 ```
+PS C:\>New-AzureRmRedisCacheLink -PrimaryServerName "mycache1" -SecondaryServerName "mycache2"
 
-{{ Add example description here }}
+        PrimaryServerName   : mycache1
+        SecondaryServerName : mycache2
+        ProvisioningState   : Creating
+```
+This command creates geo-replication link between Redis Cache mycache1 and mycache2.
 
 ## PARAMETERS
 
@@ -121,3 +124,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[Get-AzureRmRedisCacheLink](./Get-AzureRmRedisCacheLink.md)
+
+[Remove-AzureRmRedisCacheLink](./Remove-AzureRmRedisCacheLink.md)
+
+[Get-AzureRmRedisCache](./Get-AzureRmRedisCache.md)
+
+[New-AzureRmRedisCache](./New-AzureRmRedisCache.md)
+
+[Remove-AzureRmRedisCache](./Remove-AzureRmRedisCache.md)
+
+[Set-AzureRmRedisCache](./Set-AzureRmRedisCache.md)

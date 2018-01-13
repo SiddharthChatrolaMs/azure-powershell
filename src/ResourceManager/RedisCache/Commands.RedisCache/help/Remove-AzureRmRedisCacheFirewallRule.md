@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzureRmRedisCacheFirewallRule
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Remove a firewall rule from a Redis Cache.
 
 ## SYNTAX
 
@@ -25,16 +25,17 @@ Remove-AzureRmRedisCacheFirewallRule [-PassThru] -InputObject <PSRedisFirewallRu
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Remove a firewall rule from a Redis Cache.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### Example 1: Remove a single firewall rule
+```
+PS C:\>Remove-AzureRmRedisCacheFirewallRule -Name "mycache" -RuleName "ruleone" -PassThru
+True
 ```
 
-{{ Add example description here }}
+This command removes a firewall rule named ruleone from Redis Cache named mycache. 
 
 ## PARAMETERS
 
@@ -171,3 +172,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[New-AzureRmRedisCacheFirewallRule](./New-AzureRmRedisCacheFirewallRule.md)
+
+[Get-AzureRmRedisCacheFirewallRule](./Get-AzureRmRedisCacheFirewallRule.md)
+
+[Get-AzureRmRedisCache](./Get-AzureRmRedisCache.md)
+
+[New-AzureRmRedisCache](./New-AzureRmRedisCache.md)
+
+[Remove-AzureRmRedisCache](./Remove-AzureRmRedisCache.md)
+
+[Set-AzureRmRedisCache](./Set-AzureRmRedisCache.md)

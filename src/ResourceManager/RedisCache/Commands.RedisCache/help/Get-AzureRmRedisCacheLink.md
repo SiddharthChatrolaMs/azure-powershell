@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-AzureRmRedisCacheLink
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Get geo replication link for Redis Cache.
 
 ## SYNTAX
 
@@ -36,16 +36,53 @@ Get-AzureRmRedisCacheLink -SecondaryServerName <String> [-DefaultProfile <IAzure
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+There are four different ways to get geo-replication link detail. Either provide parameter Name or PrimaryServerName and/or SecondaryServerName. Name is given then all link where cache exists will be returned. If only PrimaryServerName is given then all links where cache is primary will be returned. If only SecondaryServerName is given then all links where cache is secondary will be returned. If PrimaryServerName and SecondaryServerName both are given then specific link with correct role will be returned. 
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### Example 1: Get using parameter set AllLinksForCache
+```
+PS C:\>Get-AzureRmRedisCacheLink -Name "mycache1"
+
+        PrimaryServerName   : mycache1
+        SecondaryServerName : mycache2
+        ProvisioningState   : Succeeded
 ```
 
-{{ Add example description here }}
+This command gets all geo-replication links for Redis Cache named mycache1.
+
+### Example 2: Get using parameter set AllLinksForPrimaryCache
+```
+PS C:\>Get-AzureRmRedisCacheLink -PrimaryServerName "mycache1"
+
+        PrimaryServerName   : mycache1
+        SecondaryServerName : mycache2
+        ProvisioningState   : Succeeded
+```
+
+This command gets geo-replication links where Redis Cache named mycache1 is primary.
+
+### Example 3: Get using parameter set AllLinksForSecondaryCache
+```
+PS C:\>Get-AzureRmRedisCacheLink -SecondaryServerName "mycache2"
+
+        PrimaryServerName   : mycache1
+        SecondaryServerName : mycache2
+        ProvisioningState   : Succeeded
+```
+
+This command gets geo-replication links where Redis Cache named mycache2 is secondary.
+
+### Example 4: Get using parameter set SingleLink
+```
+PS C:\>Get-AzureRmRedisCacheLink -PrimaryServerName "mycache1" -SecondaryServerName "mycache2"
+
+        PrimaryServerName   : mycache1
+        SecondaryServerName : mycache2
+        ProvisioningState   : Succeeded
+```
+
+This command gets a single geo-replication links where Redis Cache named mycache1 is primary and Redis Cache named mycache2 is secondary.
 
 ## PARAMETERS
 
@@ -115,6 +152,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+You can pipe input to this cmdlet by name, but not by value.
 
 ## OUTPUTS
 
@@ -123,3 +161,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[New-AzureRmRedisCacheLink](./New-AzureRmRedisCacheLink.md)
+
+[Remove-AzureRmRedisCacheLink](./Remove-AzureRmRedisCacheLink.md)
+
+[Get-AzureRmRedisCache](./Get-AzureRmRedisCache.md)
+
+[New-AzureRmRedisCache](./New-AzureRmRedisCache.md)
+
+[Remove-AzureRmRedisCache](./Remove-AzureRmRedisCache.md)
+
+[Set-AzureRmRedisCache](./Set-AzureRmRedisCache.md)

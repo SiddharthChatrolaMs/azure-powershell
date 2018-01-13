@@ -30,7 +30,6 @@ The **New-AzureRmRedisCache** cmdlet creates an Azure Redis Cache.
 ```
 PS C:\>New-AzureRmRedisCache -ResourceGroupName "MyGroup" -Name "MyCache" -Location "North Central US"
 
-
           PrimaryKey         : pJ+jruGKPHDKsEC8kmoybobH3TZx2njBR3ipEsquZFo=
           SecondaryKey       : sJ+jruGKPHDKsEC8kmoybobH3TZx2njBR3ipEsquZFo=
           ResourceGroupName  : MyGroup
@@ -47,6 +46,8 @@ PS C:\>New-AzureRmRedisCache -ResourceGroupName "MyGroup" -Name "MyCache" -Locat
           RedisVersion       : 2.8
           Size               : 1GB
           Sku                : Standard
+          Tag                : {}
+          Zone               : []
 ```
 
 This command creates a Redis Cache.
@@ -54,7 +55,6 @@ This command creates a Redis Cache.
 ### Example 2: Create a Standard SKU Redis Cache
 ```
 PS C:\>New-AzureRmRedisCache -ResourceGroupName "MyGroup" -Name "MyCache" -Location "North Central US" -Size 250MB -Sku "Standard" -RedisConfiguration @{"maxmemory-policy" = "allkeys-random"} -Force
-
 
           PrimaryKey         : pJ+jruGKPHDKsEC8kmoybobH3TZx2njBR3ipEsquZFo=
           SecondaryKey       : sJ+jruGKPHDKsEC8kmoybobH3TZx2njBR3ipEsquZFo=
@@ -72,9 +72,11 @@ PS C:\>New-AzureRmRedisCache -ResourceGroupName "MyGroup" -Name "MyCache" -Locat
           RedisVersion       : 2.8
           Size               : 250MB
           Sku                : Standard
+          Tag                : {}
+          Zone               : []
 ```
 
-This command creates a Redis Cache or updates the Redis Cache if it already exists.
+This command creates a Redis Cache.
 
 ## PARAMETERS
 

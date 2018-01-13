@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-AzureRmRedisCacheFirewallRule
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Create a firewall rule on a Redis Cache.
 
 ## SYNTAX
 
@@ -33,16 +33,24 @@ New-AzureRmRedisCacheFirewallRule -RuleName <String> -StartIP <String> -EndIP <S
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Create a firewall rule on a Redis Cache.
 
 ## EXAMPLES
 
-### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+### Example 1: Create a firewall rule
+```
+PS C:\>New-AzureRmRedisCacheFirewallRule -Name "mycache" -RuleName "ruleone" -StartIP "10.0.0.1" -EndIP "10.0.0.32"
+
+        ResourceGroupName : myGroup
+        Name              : mycache
+        FirewallRuleId    : /subscriptions/a559b6fd-3a84-40bb-a450-b0db5ed37dfe/resourceGroups/myGroup/providers/Microsoft.Cache/Redis/mycache/firewallRules/ruleone
+        RuleName          : ruleone
+        Type              : Microsoft.Cache/Redis/firewallRules
+        StartIP           : 10.0.0.1
+        EndIP             : 10.0.0.32
 ```
 
-{{ Add example description here }}
+This command creates firewall rule named ruleone on Redis Cache named mycache.
 
 ## PARAMETERS
 
@@ -207,3 +215,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+[Get-AzureRmRedisCacheFirewallRule](./Get-AzureRmRedisCacheFirewallRule.md)
+
+[Remove-AzureRmRedisCacheFirewallRule](./Remove-AzureRmRedisCacheFirewallRule.md)
+
+[Get-AzureRmRedisCache](./Get-AzureRmRedisCache.md)
+
+[New-AzureRmRedisCache](./New-AzureRmRedisCache.md)
+
+[Remove-AzureRmRedisCache](./Remove-AzureRmRedisCache.md)
+
+[Set-AzureRmRedisCache](./Set-AzureRmRedisCache.md)
