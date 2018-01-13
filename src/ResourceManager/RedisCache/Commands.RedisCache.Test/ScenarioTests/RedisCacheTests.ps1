@@ -767,7 +767,7 @@ function Test-FirewallRule
     Assert-AreEqual $rule2 $rule2Created.RuleName
 
     # Set firewall rule using piping from ResourceId
-    $rule3Created = Find-AzureRmResource -ResourceGroupNameEquals $resourceGroupName -ResourceNameEquals $cacheName | New-AzureRmRedisCacheFirewallRule -RuleName $rule3 -StartIP $rule3StartIp -EndIP $rule3EndIp
+    $rule3Created = New-AzureRmRedisCacheFirewallRule -ResourceId $cacheCreated.Id -RuleName $rule3 -StartIP $rule3StartIp -EndIP $rule3EndIp
     Assert-AreEqual $rule3StartIp $rule3Created.StartIP
     Assert-AreEqual $rule3EndIp $rule3Created.EndIP
     Assert-AreEqual $rule3 $rule3Created.RuleName
